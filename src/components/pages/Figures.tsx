@@ -1,6 +1,6 @@
 import { motion, useInView } from "framer-motion"
 import { useEffect, useRef, useState } from "react"
-import bgImage from "@/assets/images/bgimagesss.webp"
+import bgImage from "@/assets/svg/ChatGPT Image 10 янв. 2026 г., 14_29_19.webp"
 
 interface CounterProps {
   target: number
