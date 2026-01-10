@@ -1,4 +1,5 @@
 import { motion } from "framer-motion"
+import UzbekistanLocationCard from "@/components/pages/UzbekistanLocationCard"
 import {
   Instagram,
   Send,
@@ -8,6 +9,7 @@ import {
   ArrowUpRight,
 } from "lucide-react"
 import bgImage from "@/assets/svg/shirt-mockup-concept-with-plain-clothing.webp"
+import LuxuryMapCard from "@/components/pages/UzbekistanLocationCard"
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
@@ -88,25 +90,7 @@ const Footer = () => {
           </div>
 
           {/* NEWSLETTER */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-lg">Yangiliklarga obuna</h4>
-            <p className="text-sm text-neutral-300">
-              Eng so‘nggi yangiliklar va takliflardan xabardor bo‘ling.
-            </p>
-            <form className="flex gap-2">
-              <input
-                type="email"
-                placeholder="Email manzilingiz"
-                className="flex-1 px-4 py-3 rounded-full bg-white/10 outline-none text-sm"
-              />
-              <button
-                type="submit"
-                className="px-6 py-3 rounded-full bg-orange-500 hover:bg-orange-400 transition font-semibold"
-              >
-                Obuna
-              </button>
-            </form>
-          </div>
+
 
           {/* CONTACT */}
           <div className="space-y-4">
@@ -127,6 +111,19 @@ const Footer = () => {
               Namangan viloyati
             </div>
           </div>
+
+          <LuxuryMapCard
+            title="Mirano Textile • Manzil"
+            address="Namangan viloyati, O‘zbekiston"
+            // eng yaxshisi: o‘zingizni aniq joy nomi bilan
+            placeQuery="Namangan, Uzbekistan"
+            // yoki aniq koordinata bilan:
+            // lat={41.0011}
+            // lng={71.6436}
+            travelMode="driving"
+          />
+
+
         </motion.div>
 
         {/* BOTTOM */}

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -16,7 +16,6 @@ import p7 from "@/assets/images/10.webp";
 import p8 from "@/assets/images/11.webp";
 import p9 from "@/assets/images/12.webp";
 import p10 from "@/assets/images/Дизайн без названия - 2025-11-04T155341.092.webp";
-
 
 type Product = {
   id: string;
@@ -44,7 +43,8 @@ function formatUZS(value: number) {
   return `${new Intl.NumberFormat("uz-UZ").format(value)} so'm`;
 }
 
-function ProductCard({ p }: { p: Product }) {
+/** ✅ Memo: re-render kamayadi */
+const ProductCard = React.memo(function ProductCard({ p }: { p: Product }) {
   return (
     <article
       className="
@@ -56,7 +56,6 @@ function ProductCard({ p }: { p: Product }) {
         transition-all duration-300
       "
     >
-      {/* ✅ IMAGE: kattaroq bo‘lsin */}
       <div className="relative h-72 w-full overflow-hidden">
         <img
           src={p.image}
@@ -70,17 +69,15 @@ function ProductCard({ p }: { p: Product }) {
           "
           loading="lazy"
           decoding="async"
+          // ✅ GPU hint: “qotish”ni kamaytiradi
+          style={{ willChange: "transform" }}
         />
 
-        {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/20" />
-
-        {/* Luxury highlights */}
         <div className="absolute inset-0 bg-gradient-to-br from-white/12 via-white/5 to-transparent" />
         <div className="absolute inset-0 opacity-60 [background:radial-gradient(circle_at_30%_20%,rgba(255,180,80,0.18),transparent_55%)]" />
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 [background:radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.18),transparent_55%)]" />
 
-        {/* Label */}
         <div className="absolute left-3 bottom-3 flex items-center gap-2">
           <Badge className="bg-orange-500/90 text-white border-0 shadow-md">Optom</Badge>
           <span className="text-white/80 text-xs drop-shadow">Narxlarda</span>
@@ -97,23 +94,17 @@ function ProductCard({ p }: { p: Product }) {
           </p>
         </div>
 
-        {/* Prices */}
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-xl border border-white/15 bg-black/10 p-3">
             <p className="text-white/60 text-xs">Narxi</p>
-            <p className="text-white font-bold text-sm sm:text-base">
-              {formatUZS(p.priceUZS)}
-            </p>
+            <p className="text-white font-bold text-sm sm:text-base">{formatUZS(p.priceUZS)}</p>
           </div>
           <div className="rounded-xl border border-white/15 bg-black/10 p-3">
             <p className="text-white/60 text-xs">Optom</p>
-            <p className="text-white font-bold text-sm sm:text-base">
-              {formatUZS(p.wholesaleUZS)}
-            </p>
+            <p className="text-white font-bold text-sm sm:text-base">{formatUZS(p.wholesaleUZS)}</p>
           </div>
         </div>
 
-        {/* Sizes */}
         <div className="flex flex-wrap gap-2 items-center">
           <span className="text-white/70 text-xs">Razmer:</span>
           {p.sizes.map((s) => (
@@ -126,38 +117,69 @@ function ProductCard({ p }: { p: Product }) {
             </Badge>
           ))}
         </div>
-
-        {/* ✅ ACTIONS olib tashlandi */}
       </div>
     </article>
   );
-}
+});
 
 export default function CatalogCarousel() {
   const [isHover, setIsHover] = useState(false);
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
-    { loop: true, align: "start", skipSnaps: false },
+    {
+      loop: true,
+      align: "start",
+      skipSnaps: false,
+      // ✅ embla “qotish”ni kamaytiradi
+      containScroll: "trimSnaps",
+      dragFree: false,
+    },
     []
   );
 
+  // ✅ Interval o‘rniga raf + timestamp (stabillik + kam jitter)
   const autoplayDelay = 1500;
-  const autoplayRef = useRef<number | null>(null);
+  const rafId = useRef<number | null>(null);
+  const lastTick = useRef<number>(0);
 
   const stopAutoplay = useCallback(() => {
-    if (autoplayRef.current) {
-      window.clearInterval(autoplayRef.current);
-      autoplayRef.current = null;
+    if (rafId.current) {
+      cancelAnimationFrame(rafId.current);
+      rafId.current = null;
     }
   }, []);
+
+  const play = useCallback(
+    (t: number) => {
+      if (!emblaApi) return;
+
+      // tab background bo‘lsa qattiq ishlamasin
+      if (document.hidden) {
+        lastTick.current = t;
+        rafId.current = requestAnimationFrame(play);
+        return;
+      }
+
+      if (!lastTick.current) lastTick.current = t;
+
+      const elapsed = t - lastTick.current;
+      if (elapsed >= autoplayDelay) {
+        // ✅ embla ready bo‘lsa scroll qilamiz
+        if (emblaApi.canScrollNext()) emblaApi.scrollNext();
+        lastTick.current = t;
+      }
+
+      rafId.current = requestAnimationFrame(play);
+    },
+    [emblaApi]
+  );
 
   const startAutoplay = useCallback(() => {
     if (!emblaApi) return;
     stopAutoplay();
-    autoplayRef.current = window.setInterval(() => {
-      emblaApi?.scrollNext();
-    }, autoplayDelay);
-  }, [emblaApi, stopAutoplay]);
+    lastTick.current = 0;
+    rafId.current = requestAnimationFrame(play);
+  }, [emblaApi, play, stopAutoplay]);
 
   useEffect(() => {
     if (!emblaApi) return;
@@ -165,21 +187,30 @@ export default function CatalogCarousel() {
     if (!isHover) startAutoplay();
     else stopAutoplay();
 
+    // ✅ pointer events: mouse/touch hammasi uchun
     const onPointerDown = () => stopAutoplay();
     const onPointerUp = () => {
       if (!isHover) startAutoplay();
     };
 
+    const onVisibility = () => {
+      if (document.hidden) stopAutoplay();
+      else if (!isHover) startAutoplay();
+    };
+
     emblaApi.on("pointerDown", onPointerDown);
     emblaApi.on("pointerUp", onPointerUp);
+    document.addEventListener("visibilitychange", onVisibility);
 
     return () => {
       stopAutoplay();
       emblaApi.off("pointerDown", onPointerDown);
       emblaApi.off("pointerUp", onPointerUp);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [emblaApi, isHover, startAutoplay, stopAutoplay]);
 
+  // ✅ memo — stable
   const slides = useMemo(() => PRODUCTS, []);
 
   return (

@@ -1,65 +1,117 @@
-import { motion, useInView } from "framer-motion"
-import { useEffect, useRef, useState } from "react"
-import bgImage from "@/assets/svg/ChatGPT Image 10 янв. 2026 г., 14_29_19.webp"
+import React, { memo, useEffect, useMemo, useRef, useState } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import bgImage from "@/assets/svg/ChatGPT Image 10 янв. 2026 г., 14_29_19.webp";
 
 interface CounterProps {
-  target: number
-  suffix?: string
-  duration?: number
+  target: number;
+  suffix?: string;
+  duration?: number;
 }
 
-const Counter: React.FC<CounterProps> = ({
+const Counter = memo(function Counter({
   target,
   suffix = "",
   duration = 2000,
-}) => {
-  const ref = useRef<HTMLSpanElement | null>(null)
-  const isInView = useInView(ref, { once: true })
-  const [count, setCount] = useState<number>(0)
+}: CounterProps) {
+  const ref = useRef<HTMLSpanElement | null>(null);
+  const isInView = useInView(ref, { once: true, amount: 0.4 });
+  const reduceMotion = useReducedMotion();
+
+  const [count, setCount] = useState<number>(0);
+
+  const rafId = useRef<number | null>(null);
+  const startTime = useRef<number>(0);
+  const lastValue = useRef<number>(-1);
 
   useEffect(() => {
-    if (!isInView) return
+    if (!isInView) return;
 
-    let start = 0
-    const increment = target / (duration / 16)
+    // Reduce motion bo‘lsa: darrov target (UI deyarli o‘zgarmaydi, lekin performance zo‘r)
+    if (reduceMotion) {
+      setCount(target);
+      return;
+    }
 
-    const timer = setInterval(() => {
-      start += increment
-      if (start >= target) {
-        setCount(target)
-        clearInterval(timer)
-      } else {
-        setCount(Math.floor(start))
+    const stop = () => {
+      if (rafId.current) {
+        cancelAnimationFrame(rafId.current);
+        rafId.current = null;
       }
-    }, 16)
+    };
 
-    return () => clearInterval(timer)
-  }, [isInView, target, duration])
+    const tick = (t: number) => {
+      if (document.hidden) {
+        // tab background bo‘lsa CPU yemasin
+        rafId.current = requestAnimationFrame(tick);
+        return;
+      }
+
+      if (!startTime.current) startTime.current = t;
+
+      const progress = Math.min((t - startTime.current) / duration, 1);
+      const value = Math.floor(progress * target);
+
+      // ✅ faqat value o‘zgarganda setState (re-render kam)
+      if (value !== lastValue.current) {
+        lastValue.current = value;
+        setCount(value);
+      }
+
+      if (progress < 1) {
+        rafId.current = requestAnimationFrame(tick);
+      } else {
+        setCount(target);
+        stop();
+      }
+    };
+
+    // reset
+    startTime.current = 0;
+    lastValue.current = -1;
+    setCount(0);
+
+    rafId.current = requestAnimationFrame(tick);
+
+    const onVis = () => {
+      // visible bo‘lganda davom etadi, hidden bo‘lganda tick ichida update qilmaydi
+    };
+    document.addEventListener("visibilitychange", onVis);
+
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
+    };
+  }, [isInView, target, duration, reduceMotion]);
 
   return (
     <span ref={ref}>
       {count}
       {suffix}
     </span>
-  )
-}
+  );
+});
 
 const Figures = () => {
+  // ✅ style object har renderda qayta yaratilmasin
+  const bgStyle = useMemo(
+    () => ({
+      backgroundImage: `url(${bgImage})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }),
+    []
+  );
+
   return (
     <section
-      className="relative w-full min-h-screen flex items-center text-white"
-      style={{
-        backgroundImage: `url(${bgImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className="relative w-full min-h-screen flex items-center text-white pt-20 pb-20"
+      style={bgStyle}
     >
       {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/30" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-
           {/* LEFT CONTENT */}
           <motion.div
             initial={{ opacity: 0, y: 40 }}
@@ -92,7 +144,6 @@ const Figures = () => {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="grid grid-cols-1 sm:grid-cols-3 gap-10"
           >
-            {/* 26+ */}
             <div className="space-y-2">
               <h3 className="text-5xl font-extrabold">
                 <Counter target={26} suffix="+" />
@@ -103,7 +154,6 @@ const Figures = () => {
               </p>
             </div>
 
-            {/* 690K */}
             <div className="space-y-2">
               <h3 className="text-5xl font-extrabold">
                 <Counter target={690} suffix="K" />
@@ -114,7 +164,6 @@ const Figures = () => {
               </p>
             </div>
 
-            {/* 99% */}
             <div className="space-y-2">
               <h3 className="text-5xl font-extrabold">
                 <Counter target={99} suffix="%" />
@@ -128,7 +177,7 @@ const Figures = () => {
         </div>
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default Figures
+export default Figures;

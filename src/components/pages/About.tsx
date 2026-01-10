@@ -1,9 +1,14 @@
-import img1 from "@/assets/images/11.webp"
-import img2 from "@/assets/images/12.webp"
-import img3 from "@/assets/images/10.webp"
+import { memo, useEffect, useMemo, useRef, useState } from "react";
+import img1 from "@/assets/images/11.webp";
+import img2 from "@/assets/images/12.webp";
+import img3 from "@/assets/images/10.webp";
 
-import { motion, AnimatePresence, type Variants } from "framer-motion"
-import { useEffect, useState } from "react"
+import {
+  motion,
+  AnimatePresence,
+  type Variants,
+  useReducedMotion,
+} from "framer-motion";
 
 const container: Variants = {
   hidden: { opacity: 1 },
@@ -11,7 +16,7 @@ const container: Variants = {
     opacity: 1,
     transition: { staggerChildren: 0.12 },
   },
-}
+};
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -20,18 +25,59 @@ const fadeUp: Variants = {
     y: 0,
     transition: { duration: 0.6, ease: "easeOut" },
   },
+};
+
+function preloadImage(src: string) {
+  const img = new Image();
+  img.src = src;
 }
 
-const About = () => {
-  const images = [img1, img2, img3]
-  const [active, setActive] = useState(0)
+const About = memo(function About() {
+  const shouldReduceMotion = useReducedMotion();
 
+  // ✅ images har renderda qayta yaratilmaydi
+  const images = useMemo(() => [img1, img2, img3], []);
+  const [active, setActive] = useState(0);
+
+  const intervalMs = 2500;
+  const timerRef = useRef<number | null>(null);
+
+  const stop = () => {
+    if (timerRef.current) {
+      window.clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  const start = () => {
+    stop();
+    timerRef.current = window.setInterval(() => {
+      setActive((p) => (p + 1) % images.length);
+    }, intervalMs);
+  };
+
+  // ✅ keyingi rasmni oldindan yuklash (freeze kamayadi)
   useEffect(() => {
-    const id = setInterval(() => {
-      setActive((p) => (p + 1) % images.length)
-    }, 2500)
-    return () => clearInterval(id)
-  }, [images.length])
+    const next = (active + 1) % images.length;
+    preloadImage(images[next]);
+  }, [active, images]);
+
+  // ✅ interval: tab background bo‘lsa pause
+  useEffect(() => {
+    const onVis = () => {
+      if (document.hidden) stop();
+      else start();
+    };
+
+    start();
+    document.addEventListener("visibilitychange", onVis);
+
+    return () => {
+      stop();
+      document.removeEventListener("visibilitychange", onVis);
+    };
+    // images stable (useMemo) bo‘lgani uchun dependency xavfsiz
+  }, [images]);
 
   return (
     <section className="relative w-full bg-neutral-950 py-24 overflow-hidden">
@@ -57,12 +103,19 @@ const About = () => {
                   src={images[active]}
                   alt="Textile Workshop"
                   loading="lazy"
+                  decoding="async"
                   className="absolute inset-0 h-full w-full object-cover"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  transition={{ duration: 0.9, ease: "easeInOut" }}
+                  transition={
+                    shouldReduceMotion
+                      ? { duration: 0.01 }
+                      : { duration: 0.9, ease: "easeInOut" }
+                  }
                   draggable={false}
+                  // ✅ opacity anim silliqroq, repaint kamroq
+                  style={{ willChange: "opacity" }}
                 />
               </AnimatePresence>
             </div>
@@ -82,16 +135,20 @@ const About = () => {
           </h2>
 
           <p className="text-white/75 text-base leading-relaxed max-w-xl">
-            Mirano Textile — bu yuqori sifatli matolar, mukammal bichim va zamonaviy minimalistik uslub uyg‘unligi.
-            Biz ishlab chiqaradigan har bir futbolka qulaylik, mustahkamlik va estetikani birlashtirib, kundalik
-            hayotingizda ishonchli tanlov bo‘lib xizmat qiladi.
+            Mirano Textile — bu yuqori sifatli matolar, mukammal bichim va
+            zamonaviy minimalistik uslub uyg‘unligi. Biz ishlab chiqaradigan har
+            bir futbolka qulaylik, mustahkamlik va estetikani birlashtirib,
+            kundalik hayotingizda ishonchli tanlov bo‘lib xizmat qiladi.
             <br />
             <br />
-            Futbolkalarimiz uzoq vaqt davomida shaklini yo‘qotmaydi, rangini saqlaydi va har mavsumda qulay kiyinish
-            imkonini beradi.
+            Futbolkalarimiz uzoq vaqt davomida shaklini yo‘qotmaydi, rangini
+            saqlaydi va har mavsumda qulay kiyinish imkonini beradi.
           </p>
-          <p className="text-white/75 text-base leading-relaxed">S · M · L · XL · XXL</p>
-          {/* ✅ STATS (endigi 100% chiqadi) */}
+
+          <p className="text-white/75 text-base leading-relaxed">
+            S · M · L · XL · XXL
+          </p>
+
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6">
             {[
               { label: "Yillik Tajriba", value: "15+" },
@@ -101,14 +158,10 @@ const About = () => {
               <div
                 key={i}
                 className="
-                  rounded-2xl
-                  p-6 text-center
-                  bg-white/5
-                  border border-white/10
-                  shadow-md
-                  transition-all duration-300
-                  hover:bg-white/10
-                  hover:-translate-y-1
+                  rounded-2xl p-6 text-center
+                  bg-white/5 border border-white/10
+                  shadow-md transition-all duration-300
+                  hover:bg-white/10 hover:-translate-y-1
                 "
               >
                 <h3 className="text-3xl md:text-4xl font-extrabold text-orange-400">
@@ -123,7 +176,7 @@ const About = () => {
         </motion.div>
       </motion.div>
     </section>
-  )
-}
+  );
+});
 
-export default About
+export default About;
