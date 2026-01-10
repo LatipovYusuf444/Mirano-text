@@ -1,5 +1,7 @@
+import Footer from "@/components/layout/Footer";
 import Navbar from "@/components/layout/Navbar";
 import About from "@/components/pages/About";
+import FeaturedServices from "@/components/pages/BizningHizmatlar";
 import CatalogCarousel from "@/components/pages/CatalogCarusel";
 import Figures from "@/components/pages/Figures";
 
@@ -27,12 +29,13 @@ export default function HomePage() {
       </section>
 
       <section id="biz-haqimizda" className="scroll-mt-24">
-
+        <FeaturedServices />
       </section>
 
       <section id="location" className="scroll-mt-24">
         <Figures />
       </section>
+      <Footer />
     </>
   );
 }

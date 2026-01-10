@@ -11,16 +11,12 @@ import p2 from "@/assets/svg/futbolka.bejiviy.webp";
 import p3 from "@/assets/svg/futbolka.karichniviy.webp";
 import p4 from "@/assets/svg/photo_2026-01-08_14-50-06.webp";
 import p5 from "@/assets/svg/photo_2026-01-08_14-56-46.webp";
-import p6 from "@/assets/svg/Fiutbolka.kok.webp";
-import p7 from "@/assets/svg/Fiutbolka.kok.webp";
-import p8 from "@/assets/svg/Fiutbolka.kok.webp";
-import p9 from "@/assets/svg/Fiutbolka.kok.webp";
-import p10 from "@/assets/svg/Fiutbolka.kok.webp";
-import p11 from "@/assets/svg/Fiutbolka.kok.webp";
-import p12 from "@/assets/svg/Fiutbolka.kok.webp";
-import p13 from "@/assets/svg/Fiutbolka.kok.webp";
-import p14 from "@/assets/svg/Fiutbolka.kok.webp";
-import p15 from "@/assets/svg/Fiutbolka.kok.webp";
+import p6 from "@/assets/images/10.green.webp";
+import p7 from "@/assets/images/10.webp";
+import p8 from "@/assets/images/11.webp";
+import p9 from "@/assets/images/12.webp";
+import p10 from "@/assets/images/Дизайн без названия - 2025-11-04T155341.092.webp";
+
 
 type Product = {
   id: string;
@@ -42,11 +38,6 @@ const PRODUCTS: Product[] = [
   { id: "p8", name: "Jersey Knit", priceUZS: 159000, wholesaleUZS: 139000, sizes: ["S", "M", "L", "XL", "2XL"], image: p8 },
   { id: "p9", name: "Ribbed Cotton", priceUZS: 175000, wholesaleUZS: 155000, sizes: ["S", "M", "L"], image: p9 },
   { id: "p10", name: "Canvas Heavy Duty", priceUZS: 289000, wholesaleUZS: 255000, sizes: ["M", "L", "XL"], image: p10 },
-  { id: "p11", name: "Chiffon Light", priceUZS: 199000, wholesaleUZS: 175000, sizes: ["S", "M", "L"], image: p11 },
-  { id: "p12", name: "Gabardine Classic", priceUZS: 269000, wholesaleUZS: 239000, sizes: ["M", "L", "XL", "2XL"], image: p12 },
-  { id: "p13", name: "Bamboo Eco Fabric", priceUZS: 239000, wholesaleUZS: 209000, sizes: ["S", "M", "L", "XL"], image: p13 },
-  { id: "p14", name: "Terry Soft", priceUZS: 219000, wholesaleUZS: 189000, sizes: ["M", "L", "XL"], image: p14 },
-  { id: "p15", name: "Poly Viscose Suiting", priceUZS: 319000, wholesaleUZS: 285000, sizes: ["S", "M", "L", "XL", "2XL"], image: p15 },
 ];
 
 function formatUZS(value: number) {
@@ -92,7 +83,7 @@ function ProductCard({ p }: { p: Product }) {
         {/* Label */}
         <div className="absolute left-3 bottom-3 flex items-center gap-2">
           <Badge className="bg-orange-500/90 text-white border-0 shadow-md">Optom</Badge>
-          <span className="text-white/80 text-xs drop-shadow">Premium</span>
+          <span className="text-white/80 text-xs drop-shadow">Narxlarda</span>
         </div>
       </div>
 
