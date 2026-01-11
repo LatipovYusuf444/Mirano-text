@@ -1,10 +1,9 @@
-import Footer from "@/components/layout/Footer";
-import Navbar from "@/components/layout/Navbar";
-import About from "@/components/pages/About";
-import FeaturedServices from "@/components/pages/BizningHizmatlar";
-import CatalogCarousel from "@/components/pages/CatalogCarusel";
-import Figures from "@/components/pages/Figures";
-
+import Footer from "@/components/layout/Footer"
+import Navbar from "@/components/layout/Navbar"
+import About from "@/components/pages/About"
+import FeaturedServices from "@/components/pages/BizningHizmatlar"
+import CatalogCarousel from "@/components/pages/CatalogCarusel"
+import Figures from "@/components/pages/Figures"
 
 export default function HomePage() {
   return (
@@ -14,12 +13,12 @@ export default function HomePage() {
       <section
         id="catalog"
         className="
-    relative scroll-mt-24
-    bg-gradient-to-b
-    from-[#0b0b0f]
-    via-[#0f1117]
-    to-[#0b0b0f]
-  "
+          relative scroll-mt-24
+          bg-gradient-to-b
+          from-[#0b0b0f]
+          via-[#0f1117]
+          to-[#0b0b0f]
+        "
       >
         <CatalogCarousel />
       </section>
@@ -32,10 +31,12 @@ export default function HomePage() {
         <FeaturedServices />
       </section>
 
-      <section id="location" className="scroll-mt-24">
+      {/* ✅ oldingi location endi figures bo‘ldi */}
+      <section id="figures" className="scroll-mt-24">
         <Figures />
       </section>
+
       <Footer />
     </>
-  );
+  )
 }

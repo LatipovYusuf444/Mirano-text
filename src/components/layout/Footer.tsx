@@ -25,12 +25,13 @@ const Footer = () => {
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 py-24">
         {/* ✅ FULL WIDTH LOCATION (TOP) */}
         <motion.div
+          id="location"
+          className="mb-14 scroll-mt-32"
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-14"
         >
           <LuxuryMapCard
             title="Mirano Textile • Manzil"
