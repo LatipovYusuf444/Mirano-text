@@ -1,4 +1,4 @@
-import React, { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import bgImage from "@/assets/svg/ChatGPT Image 10 янв. 2026 г., 14_29_19.webp";
 
