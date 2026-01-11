@@ -1,13 +1,6 @@
 import { motion } from "framer-motion"
-import UzbekistanLocationCard from "@/components/pages/UzbekistanLocationCard"
-import {
-  Instagram,
-  Send,
-  Phone,
-  Mail,
-  MapPin,
-  ArrowUpRight,
-} from "lucide-react"
+import { Instagram, Send, Phone, Mail, MapPin, ArrowUpRight } from "lucide-react"
+
 import bgImage from "@/assets/svg/shirt-mockup-concept-with-plain-clothing.webp"
 import LuxuryMapCard from "@/components/pages/UzbekistanLocationCard"
 
@@ -30,28 +23,44 @@ const Footer = () => {
       <div className="absolute inset-0 bg-black/85" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 py-24">
-
-        {/* TOP */}
+        {/* ✅ FULL WIDTH LOCATION (TOP) */}
         <motion.div
           variants={fadeUp}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="grid grid-cols-1 lg:grid-cols-4 gap-14"
+          className="mb-14"
         >
+          <LuxuryMapCard
+            title="Mirano Textile • Manzil"
+            address="Namangan viloyati, O‘zbekiston"
+            placeQuery="Namangan, Uzbekistan"
+            travelMode="driving"
+            className="rounded-3xl"
+            mapHeightClassName="h-[320px] md:h-[420px] lg:h-[520px]"
+          />
+        </motion.div>
 
+        {/* TOP GRID */}
+        <motion.div
+          variants={fadeUp}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          transition={{ duration: 0.9 }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14"
+        >
           {/* BRAND */}
           <div className="space-y-6">
             <h2 className="text-4xl font-extrabold tracking-wide">
               MIRANO<span className="text-orange-500">.</span>
             </h2>
-            <p className="text-neutral-300 text-sm leading-relaxed">
+            <p className="text-neutral-300 text-sm leading-relaxed max-w-md">
               Biz texnik to‘qimachilik sohasida sifat, ishonch va innovatsiyani
               birlashtirgan holda xalqaro darajadagi mahsulotlar ishlab chiqaramiz.
             </p>
 
-            {/* Socials */}
             <div className="flex gap-4">
               <a
                 href="https://instagram.com/"
@@ -89,9 +98,6 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* NEWSLETTER */}
-
-
           {/* CONTACT */}
           <div className="space-y-4">
             <h4 className="font-semibold text-lg">Aloqa</h4>
@@ -112,25 +118,30 @@ const Footer = () => {
             </div>
           </div>
 
-          <LuxuryMapCard
-            title="Mirano Textile • Manzil"
-            address="Namangan viloyati, O‘zbekiston"
-            // eng yaxshisi: o‘zingizni aniq joy nomi bilan
-            placeQuery="Namangan, Uzbekistan"
-            // yoki aniq koordinata bilan:
-            // lat={41.0011}
-            // lng={71.6436}
-            travelMode="driving"
-          />
+          {/* OPTIONAL: EXTRA COLUMN (agar 4-col bo‘sh qolmasin desangiz) */}
+          <div className="space-y-4">
+            <h4 className="font-semibold text-lg">Ish vaqti</h4>
+            <p className="text-sm text-neutral-300 leading-relaxed">
+              Dushanba - Shanba: 09:00 - 18:00
+              <br />
+              Yakshanba: Dam olish
+            </p>
 
-
+            <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p className="text-sm text-neutral-200 font-semibold">
+                Taklif/Buyurtma
+              </p>
+              <p className="text-xs text-neutral-400 mt-1">
+                Biz bilan bog‘laning — tez javob beramiz.
+              </p>
+            </div>
+          </div>
         </motion.div>
 
         {/* BOTTOM */}
         <div className="mt-20 border-t border-white/10 pt-6 text-center text-sm text-neutral-400">
           © {new Date().getFullYear()} Mirano Textile. Barcha huquqlar himoyalangan.
         </div>
-
       </div>
     </footer>
   )

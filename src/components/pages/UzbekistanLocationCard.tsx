@@ -1,19 +1,23 @@
-import  { memo, useMemo } from "react";
-import { MapPin, Navigation, ExternalLink } from "lucide-react";
+import { memo, useMemo } from "react"
+import { MapPin, Navigation, ExternalLink } from "lucide-react"
 
 type Props = {
-  title?: string;
-  address?: string;
+  title?: string
+  address?: string
 
   // 1) Agar lat/lng bo‘lsa — shu ishlaydi
-  lat?: number;
-  lng?: number;
+  lat?: number
+  lng?: number
 
   // 2) Yoki joy nomi / query (masalan: "Amir Temur xiyoboni" yoki "Mirano Textile Namangan")
-  placeQuery?: string;
+  placeQuery?: string
 
-  travelMode?: "driving" | "walking" | "transit";
-};
+  travelMode?: "driving" | "walking" | "transit"
+
+  // ✅ footerda width/height boshqarish uchun
+  className?: string
+  mapHeightClassName?: string
+}
 
 function openDirections({
   lat,
@@ -21,44 +25,44 @@ function openDirections({
   placeQuery,
   travelMode,
 }: {
-  lat?: number;
-  lng?: number;
-  placeQuery?: string;
-  travelMode: string;
+  lat?: number
+  lng?: number
+  placeQuery?: string
+  travelMode: string
 }) {
   const destination = placeQuery
     ? placeQuery
     : lat != null && lng != null
       ? `${lat},${lng}`
-      : "";
+      : ""
 
-  if (!destination) return;
+  if (!destination) return
 
   // origin bo‘lsa ham, bo‘lmasa ham Google o‘zi hal qiladi
   if ("geolocation" in navigator) {
     navigator.geolocation.getCurrentPosition(
       (pos) => {
-        const origin = `${pos.coords.latitude},${pos.coords.longitude}`;
+        const origin = `${pos.coords.latitude},${pos.coords.longitude}`
         const url = `https://www.google.com/maps/dir/?api=1&origin=${encodeURIComponent(
           origin
         )}&destination=${encodeURIComponent(destination)}&travelmode=${encodeURIComponent(
           travelMode
-        )}`;
-        window.open(url, "_blank", "noopener,noreferrer");
+        )}`
+        window.open(url, "_blank", "noopener,noreferrer")
       },
       () => {
         const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
           destination
-        )}&travelmode=${encodeURIComponent(travelMode)}`;
-        window.open(url, "_blank", "noopener,noreferrer");
+        )}&travelmode=${encodeURIComponent(travelMode)}`
+        window.open(url, "_blank", "noopener,noreferrer")
       },
       { maximumAge: 60_000, timeout: 7000 }
-    );
+    )
   } else {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
       destination
-    )}&travelmode=${encodeURIComponent(travelMode)}`;
-    window.open(url, "_blank", "noopener,noreferrer");
+    )}&travelmode=${encodeURIComponent(travelMode)}`
+    window.open(url, "_blank", "noopener,noreferrer")
   }
 }
 
@@ -67,22 +71,15 @@ function openInGoogleMaps({
   lng,
   placeQuery,
 }: {
-  lat?: number;
-  lng?: number;
-  placeQuery?: string;
+  lat?: number
+  lng?: number
+  placeQuery?: string
 }) {
-  const q = placeQuery
-    ? placeQuery
-    : lat != null && lng != null
-      ? `${lat},${lng}`
-      : "";
+  const q = placeQuery ? placeQuery : lat != null && lng != null ? `${lat},${lng}` : ""
+  if (!q) return
 
-  if (!q) return;
-
-  const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-    q
-  )}`;
-  window.open(url, "_blank", "noopener,noreferrer");
+  const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
+  window.open(url, "_blank", "noopener,noreferrer")
 }
 
 const LuxuryMapCard = memo(function LuxuryMapCard({
@@ -92,27 +89,25 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
   lng,
   placeQuery = "Amir Temur xiyoboni",
   travelMode = "driving",
-}: Props) {
-  // ✅ Real map embed url
-  // “q” bo‘yicha ko‘rsatadi (marker ham chiqadi)
-  const mapSrc = useMemo(() => {
-    const q =
-      placeQuery ||
-      (lat != null && lng != null ? `${lat},${lng}` : "Uzbekistan");
 
-    // output=embed bo‘lsa iframe ichida real google map chiqadi
-    return `https://www.google.com/maps?q=${encodeURIComponent(q)}&z=14&output=embed`;
-  }, [placeQuery, lat, lng]);
+  // ✅ NEW defaultlar
+  className = "",
+  mapHeightClassName = "h-[260px] md:h-[280px]",
+}: Props) {
+  const mapSrc = useMemo(() => {
+    const q = placeQuery || (lat != null && lng != null ? `${lat},${lng}` : "Uzbekistan")
+    return `https://www.google.com/maps?q=${encodeURIComponent(q)}&z=14&output=embed`
+  }, [placeQuery, lat, lng])
 
   return (
     <div
-      className="
-        mt-4
+      className={`
         relative overflow-hidden rounded-2xl
         border border-white/12
         bg-white/6 backdrop-blur-xl
         shadow-[0_24px_80px_rgba(0,0,0,0.60)]
-      "
+        ${className}
+      `}
     >
       {/* Luxury shine */}
       <div className="pointer-events-none absolute -inset-24 opacity-70 [background:radial-gradient(circle_at_18%_12%,rgba(255,165,0,0.22),transparent_55%)]" />
@@ -167,23 +162,21 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
 
         {/* Map frame */}
         <div className="mt-4 relative overflow-hidden rounded-xl border border-white/10 bg-black/25">
-          {/* ✅ loading="lazy" -> qotmaydi */}
           <iframe
             src={mapSrc}
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
-            className="w-full h-[260px] md:h-[280px] block"
+            className={`w-full ${mapHeightClassName} block`}
             allowFullScreen
           />
 
-          {/* Bottom glass hint */}
           <div className="px-3 py-2 text-[11px] text-white/70 border-t border-white/10 bg-black/30">
             📌 Xarita interaktiv: zoom/drag ishlaydi. “Marshrut” bosilsa yo‘nalish ochiladi.
           </div>
         </div>
       </div>
     </div>
-  );
-});
+  )
+})
 
-export default LuxuryMapCard;
+export default LuxuryMapCard
