@@ -1,11 +1,11 @@
-import { memo, useEffect, useMemo, useRef, useState } from "react";
-import { motion, useInView, useReducedMotion } from "framer-motion";
-import bgImage from "@/assets/svg/ChatGPT Image 10 янв. 2026 г., 14_29_19.webp";
+import { memo, useEffect, useMemo, useRef, useState } from "react"
+import { motion, useInView, useReducedMotion } from "framer-motion"
+import bgImage from "@/assets/svg/ChatGPT Image 10 янв. 2026 г., 14_29_19.webp"
 
 interface CounterProps {
-  target: number;
-  suffix?: string;
-  duration?: number;
+  target: number
+  suffix?: string
+  duration?: number
 }
 
 const Counter = memo(function Counter({
@@ -13,86 +13,92 @@ const Counter = memo(function Counter({
   suffix = "",
   duration = 2000,
 }: CounterProps) {
-  const ref = useRef<HTMLSpanElement | null>(null);
-  const isInView = useInView(ref, { once: true, amount: 0.4 });
-  const reduceMotion = useReducedMotion();
+  const ref = useRef<HTMLSpanElement | null>(null)
 
-  const [count, setCount] = useState<number>(0);
+  // ✅ ko‘rinishga yaqinlashganda boshlasin (qotish kamroq, smoothroq)
+  const isInView = useInView(ref, { once: true, amount: 0.4, margin: "200px" })
+  const reduceMotion = useReducedMotion()
 
-  const rafId = useRef<number | null>(null);
-  const startTime = useRef<number>(0);
-  const lastValue = useRef<number>(-1);
+  const [count, setCount] = useState(0)
+
+  const rafId = useRef<number | null>(null)
+  const startTime = useRef<number>(0)
+  const lastValue = useRef<number>(-1)
 
   useEffect(() => {
-    if (!isInView) return;
+    if (!isInView) return
 
-    // Reduce motion bo‘lsa: darrov target (UI deyarli o‘zgarmaydi, lekin performance zo‘r)
+    // ✅ Reduce motion bo‘lsa: darrov target
     if (reduceMotion) {
-      setCount(target);
-      return;
+      setCount(target)
+      return
     }
 
     const stop = () => {
       if (rafId.current) {
-        cancelAnimationFrame(rafId.current);
-        rafId.current = null;
+        cancelAnimationFrame(rafId.current)
+        rafId.current = null
       }
-    };
+    }
 
     const tick = (t: number) => {
+      // ✅ tab background bo‘lsa: setState qilmaydi, CPU kam
       if (document.hidden) {
-        // tab background bo‘lsa CPU yemasin
-        rafId.current = requestAnimationFrame(tick);
-        return;
+        rafId.current = requestAnimationFrame(tick)
+        return
       }
 
-      if (!startTime.current) startTime.current = t;
+      if (!startTime.current) startTime.current = t
 
-      const progress = Math.min((t - startTime.current) / duration, 1);
-      const value = Math.floor(progress * target);
+      const progress = Math.min((t - startTime.current) / duration, 1)
+      const value = Math.floor(progress * target)
 
-      // ✅ faqat value o‘zgarganda setState (re-render kam)
       if (value !== lastValue.current) {
-        lastValue.current = value;
-        setCount(value);
+        lastValue.current = value
+        setCount(value)
       }
 
       if (progress < 1) {
-        rafId.current = requestAnimationFrame(tick);
+        rafId.current = requestAnimationFrame(tick)
       } else {
-        setCount(target);
-        stop();
+        setCount(target)
+        stop()
       }
-    };
+    }
 
     // reset
-    startTime.current = 0;
-    lastValue.current = -1;
-    setCount(0);
+    startTime.current = 0
+    lastValue.current = -1
+    setCount(0)
 
-    rafId.current = requestAnimationFrame(tick);
+    rafId.current = requestAnimationFrame(tick)
 
     const onVis = () => {
-      // visible bo‘lganda davom etadi, hidden bo‘lganda tick ichida update qilmaydi
-    };
-    document.addEventListener("visibilitychange", onVis);
+      // visible/hidden logikasi tick ichida
+    }
+    document.addEventListener("visibilitychange", onVis)
 
     return () => {
-      stop();
-      document.removeEventListener("visibilitychange", onVis);
-    };
-  }, [isInView, target, duration, reduceMotion]);
+      stop()
+      document.removeEventListener("visibilitychange", onVis)
+    }
+  }, [isInView, target, duration, reduceMotion])
 
   return (
     <span ref={ref}>
       {count}
       {suffix}
     </span>
-  );
-});
+  )
+})
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+}
 
 const Figures = () => {
-  // ✅ style object har renderda qayta yaratilmasin
+  // ✅ style object stable
   const bgStyle = useMemo(
     () => ({
       backgroundImage: `url(${bgImage})`,
@@ -100,10 +106,15 @@ const Figures = () => {
       backgroundPosition: "center",
     }),
     []
-  );
+  )
+
+  // ✅ butun section ko‘ringanda animatsiya ishga tushsin (ko‘rinmaganda ishlamaydi)
+  const sectionRef = useRef<HTMLElement | null>(null)
+  const sectionInView = useInView(sectionRef, { once: true, amount: 0.2, margin: "150px" })
 
   return (
     <section
+      ref={sectionRef}
       className="relative w-full min-h-screen flex items-center text-white pt-20 pb-20"
       style={bgStyle}
     >
@@ -114,8 +125,9 @@ const Figures = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           {/* LEFT CONTENT */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
+            variants={fadeUp}
+            initial="hidden"
+            animate={sectionInView ? "visible" : "hidden"}
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="space-y-6"
           >
@@ -139,9 +151,10 @@ const Figures = () => {
 
           {/* RIGHT STATS */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            variants={fadeUp}
+            initial="hidden"
+            animate={sectionInView ? "visible" : "hidden"}
+            transition={{ duration: 0.8, delay: 0.15 }}
             className="grid grid-cols-1 sm:grid-cols-3 gap-10"
           >
             <div className="space-y-2">
@@ -177,7 +190,7 @@ const Figures = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Figures;
+export default Figures

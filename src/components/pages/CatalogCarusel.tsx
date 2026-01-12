@@ -1,30 +1,31 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import useEmblaCarousel from "embla-carousel-react";
-import { Badge } from "@/components/ui/badge";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { memo } from "react";
+import useEmblaCarousel from "embla-carousel-react"
+import { Badge } from "@/components/ui/badge"
 
 /**
  * Rasmlar:
  * src/assets/svg/....
  */
-import p1 from "@/assets/svg/Fiutbolka.kok.webp";
-import p2 from "@/assets/svg/futbolka.bejiviy.webp";
-import p3 from "@/assets/svg/futbolka.karichniviy.webp";
-import p4 from "@/assets/svg/photo_2026-01-08_14-50-06.webp";
-import p5 from "@/assets/svg/photo_2026-01-08_14-56-46.webp";
-import p6 from "@/assets/images/10.green.webp";
-import p7 from "@/assets/images/10.webp";
-import p8 from "@/assets/images/11.webp";
-import p9 from "@/assets/images/12.webp";
-import p10 from "@/assets/images/Дизайн без названия - 2025-11-04T155341.092.webp";
+import p1 from "@/assets/svg/Fiutbolka.kok.webp"
+import p2 from "@/assets/svg/futbolka.bejiviy.webp"
+import p3 from "@/assets/svg/futbolka.karichniviy.webp"
+import p4 from "@/assets/svg/photo_2026-01-08_14-50-06.webp"
+import p5 from "@/assets/svg/photo_2026-01-08_14-56-46.webp"
+import p6 from "@/assets/images/10.green.webp"
+import p7 from "@/assets/images/10.webp"
+import p8 from "@/assets/images/11.webp"
+import p9 from "@/assets/images/12.webp"
+import p10 from "@/assets/images/Дизайн без названия - 2025-11-04T155341.092.webp"
 
 type Product = {
-  id: string;
-  name: string;
-  priceUZS: number;
-  wholesaleUZS: number;
-  sizes: string[];
-  image: string;
-};
+  id: string
+  name: string
+  priceUZS: number
+  wholesaleUZS: number
+  sizes: string[]
+  image: string
+}
 
 const PRODUCTS: Product[] = [
   { id: "p1", name: "Premium Cotton Fabric", priceUZS: 189000, wholesaleUZS: 165000, sizes: ["S", "M", "L", "XL"], image: p1 },
@@ -37,14 +38,14 @@ const PRODUCTS: Product[] = [
   { id: "p8", name: "Jersey Knit", priceUZS: 159000, wholesaleUZS: 139000, sizes: ["S", "M", "L", "XL", "2XL"], image: p8 },
   { id: "p9", name: "Ribbed Cotton", priceUZS: 175000, wholesaleUZS: 155000, sizes: ["S", "M", "L"], image: p9 },
   { id: "p10", name: "Canvas Heavy Duty", priceUZS: 289000, wholesaleUZS: 255000, sizes: ["M", "L", "XL"], image: p10 },
-];
+]
 
 function formatUZS(value: number) {
-  return `${new Intl.NumberFormat("uz-UZ").format(value)} so'm`;
+  return `${new Intl.NumberFormat("uz-UZ").format(value)} so'm`
 }
 
 /** ✅ Memo: re-render kamayadi */
-const ProductCard = React.memo(function ProductCard({ p }: { p: Product }) {
+const ProductCard = memo(function ProductCard({ p }: { p: Product }) {
   return (
     <article
       className="
@@ -69,7 +70,6 @@ const ProductCard = React.memo(function ProductCard({ p }: { p: Product }) {
           "
           loading="lazy"
           decoding="async"
-          // ✅ GPU hint: “qotish”ni kamaytiradi
           style={{ willChange: "transform" }}
         />
 
@@ -119,99 +119,88 @@ const ProductCard = React.memo(function ProductCard({ p }: { p: Product }) {
         </div>
       </div>
     </article>
-  );
-});
+  )
+})
+
+/** ✅ prefers-reduced-motion bo‘lsa autoplay o‘chadi (qotish kam) */
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false)
+
+  useEffect(() => {
+    const m = window.matchMedia?.("(prefers-reduced-motion: reduce)")
+    if (!m) return
+    const onChange = () => setReduced(m.matches)
+    onChange()
+    m.addEventListener?.("change", onChange)
+    return () => m.removeEventListener?.("change", onChange)
+  }, [])
+
+  return reduced
+}
 
 export default function CatalogCarousel() {
-  const [isHover, setIsHover] = useState(false);
+  const [isHover, setIsHover] = useState(false)
+  const reducedMotion = usePrefersReducedMotion()
 
   const [emblaRef, emblaApi] = useEmblaCarousel(
     {
       loop: true,
       align: "start",
       skipSnaps: false,
-      // ✅ embla “qotish”ni kamaytiradi
       containScroll: "trimSnaps",
       dragFree: false,
     },
     []
-  );
+  )
 
-  // ✅ Interval o‘rniga raf + timestamp (stabillik + kam jitter)
-  const autoplayDelay = 1500;
-  const rafId = useRef<number | null>(null);
-  const lastTick = useRef<number>(0);
+  const intervalId = useRef<number | null>(null)
 
   const stopAutoplay = useCallback(() => {
-    if (rafId.current) {
-      cancelAnimationFrame(rafId.current);
-      rafId.current = null;
+    if (intervalId.current) {
+      window.clearInterval(intervalId.current)
+      intervalId.current = null
     }
-  }, []);
-
-  const play = useCallback(
-    (t: number) => {
-      if (!emblaApi) return;
-
-      // tab background bo‘lsa qattiq ishlamasin
-      if (document.hidden) {
-        lastTick.current = t;
-        rafId.current = requestAnimationFrame(play);
-        return;
-      }
-
-      if (!lastTick.current) lastTick.current = t;
-
-      const elapsed = t - lastTick.current;
-      if (elapsed >= autoplayDelay) {
-        // ✅ embla ready bo‘lsa scroll qilamiz
-        if (emblaApi.canScrollNext()) emblaApi.scrollNext();
-        lastTick.current = t;
-      }
-
-      rafId.current = requestAnimationFrame(play);
-    },
-    [emblaApi]
-  );
+  }, [])
 
   const startAutoplay = useCallback(() => {
-    if (!emblaApi) return;
-    stopAutoplay();
-    lastTick.current = 0;
-    rafId.current = requestAnimationFrame(play);
-  }, [emblaApi, play, stopAutoplay]);
+    if (!emblaApi) return
+    stopAutoplay()
+
+    // ✅ reduce motion bo‘lsa / hover bo‘lsa / tab hidden bo‘lsa autoplay yo‘q
+    if (reducedMotion || isHover || document.hidden) return
+
+    intervalId.current = window.setInterval(() => {
+      if (!emblaApi) return
+      emblaApi.scrollNext()
+    }, 2500) // ✅ 1500 juda tez, CPU ko‘p. 2500 premium ham.
+  }, [emblaApi, isHover, reducedMotion, stopAutoplay])
 
   useEffect(() => {
-    if (!emblaApi) return;
+    if (!emblaApi) return
 
-    if (!isHover) startAutoplay();
-    else stopAutoplay();
-
-    // ✅ pointer events: mouse/touch hammasi uchun
-    const onPointerDown = () => stopAutoplay();
-    const onPointerUp = () => {
-      if (!isHover) startAutoplay();
-    };
-
+    const onPointerDown = () => stopAutoplay()
+    const onPointerUp = () => startAutoplay()
     const onVisibility = () => {
-      if (document.hidden) stopAutoplay();
-      else if (!isHover) startAutoplay();
-    };
+      if (document.hidden) stopAutoplay()
+      else startAutoplay()
+    }
 
-    emblaApi.on("pointerDown", onPointerDown);
-    emblaApi.on("pointerUp", onPointerUp);
-    document.addEventListener("visibilitychange", onVisibility);
+    emblaApi.on("pointerDown", onPointerDown)
+    emblaApi.on("pointerUp", onPointerUp)
+    document.addEventListener("visibilitychange", onVisibility)
+
+    startAutoplay()
 
     return () => {
-      stopAutoplay();
-      emblaApi.off("pointerDown", onPointerDown);
-      emblaApi.off("pointerUp", onPointerUp);
-      document.removeEventListener("visibilitychange", onVisibility);
-    };
-  }, [emblaApi, isHover, startAutoplay, stopAutoplay]);
+      stopAutoplay()
+      emblaApi.off("pointerDown", onPointerDown)
+      emblaApi.off("pointerUp", onPointerUp)
+      document.removeEventListener("visibilitychange", onVisibility)
+    }
+  }, [emblaApi, startAutoplay, stopAutoplay])
 
-  // ✅ memo — stable
-  const slides = useMemo(() => PRODUCTS, []);
+  // ✅ slides stable reference
+  const slides = useMemo(() => PRODUCTS, [])
 
   return (
     <section className="relative z-10 px-4 md:px-16 py-16">
@@ -229,6 +218,8 @@ export default function CatalogCarousel() {
           className="relative"
           onMouseEnter={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
+          onTouchStart={() => setIsHover(true)}
+          onTouchEnd={() => setIsHover(false)}
         >
           <div ref={emblaRef} className="overflow-hidden">
             <div className="flex -ml-4">
@@ -253,5 +244,5 @@ export default function CatalogCarousel() {
         </div>
       </div>
     </section>
-  );
+  )
 }

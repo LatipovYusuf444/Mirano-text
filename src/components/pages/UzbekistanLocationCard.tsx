@@ -23,7 +23,10 @@ function openDirections({
   placeQuery?: string
   travelMode: string
 }) {
-  const destination = placeQuery ? placeQuery : lat != null && lng != null ? `${lat},${lng}` : ""
+  // ✅ agar lat/lng bo‘lsa: koordinata ustun
+  const destination =
+    lat != null && lng != null ? `${lat},${lng}` : placeQuery ? placeQuery : ""
+
   if (!destination) return
 
   const open = (url: string) => window.open(url, "_blank", "noopener,noreferrer")
@@ -62,39 +65,49 @@ function openInGoogleMaps({
   lng?: number
   placeQuery?: string
 }) {
-  const q = placeQuery ? placeQuery : lat != null && lng != null ? `${lat},${lng}` : ""
+  // ✅ agar lat/lng bo‘lsa: koordinata ustun
+  const q = lat != null && lng != null ? `${lat},${lng}` : placeQuery ? placeQuery : ""
   if (!q) return
+
   const url = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}`
   window.open(url, "_blank", "noopener,noreferrer")
 }
 
 const LuxuryMapCard = memo(function LuxuryMapCard({
   title = "Bizning manzil",
-  address = "O‘zbekiston",
-  lat,
-  lng,
+
+  // ✅ manzil matni (o‘zing xohlagancha)
+  address = "40.709533, 72.559110",
+
+  // ✅ SEN BERGAN DEFAULT KOORDINATA
+  lat = 40.709533,
+  lng = 72.55911,
+
   placeQuery = "Amir Temur xiyoboni",
   travelMode = "driving",
   className = "",
   mapHeightClassName = "h-[260px] md:h-[280px]",
 }: Props) {
-  // ✅ Map src faqat qiymatlar o‘zgarsa qayta hisoblanadi
+  // ✅ Map src: lat/lng bo‘lsa koordinata ishlaydi, bo‘lmasa placeQuery
   const mapSrc = useMemo(() => {
-    const q = placeQuery || (lat != null && lng != null ? `${lat},${lng}` : "Uzbekistan")
-    return `https://www.google.com/maps?q=${encodeURIComponent(q)}&z=14&output=embed`
+    const q =
+      lat != null && lng != null
+        ? `${lat},${lng}`
+        : placeQuery
+          ? placeQuery
+          : "Uzbekistan"
+
+    return `https://www.google.com/maps?q=${encodeURIComponent(q)}&z=16&output=embed`
   }, [placeQuery, lat, lng])
 
-  // ✅ OG‘IR iframe faqat ko‘rinishga yaqinlashganda mount bo‘ladi
   const boxRef = useRef<HTMLDivElement | null>(null)
   const [shouldLoad, setShouldLoad] = useState(false)
 
   useEffect(() => {
-    // SSR bo‘lmasa ham xavfsiz
     if (shouldLoad) return
     const el = boxRef.current
     if (!el) return
 
-    // IntersectionObserver yo‘q bo‘lsa: darrov load
     if (!("IntersectionObserver" in window)) {
       setShouldLoad(true)
       return
@@ -107,12 +120,7 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
           io.disconnect()
         }
       },
-      {
-        root: null,
-        // ✅ oldindan 300px yaqinlashganda yuklanadi — scroll’da “qotmasin”
-        rootMargin: "300px",
-        threshold: 0.01,
-      }
+      { root: null, rootMargin: "300px", threshold: 0.01 }
     )
 
     io.observe(el)
@@ -129,13 +137,11 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
         ${className}
       `}
     >
-      {/* Luxury shine (UI o‘zgarmaydi) */}
       <div className="pointer-events-none absolute -inset-24 opacity-70 [background:radial-gradient(circle_at_18%_12%,rgba(255,165,0,0.22),transparent_55%)]" />
       <div className="pointer-events-none absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-500 [background:radial-gradient(circle_at_75%_25%,rgba(255,255,255,0.10),transparent_55%)]" />
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/5 via-transparent to-black/25" />
 
       <div className="relative p-4">
-        {/* Top bar */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
             <div className="flex items-center gap-2">
@@ -180,12 +186,10 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
           </div>
         </div>
 
-        {/* Map frame */}
         <div
           ref={boxRef}
           className="mt-4 relative overflow-hidden rounded-xl border border-white/10 bg-black/25"
         >
-          {/* ✅ iframe faqat kerak bo‘lganda chiqadi */}
           {shouldLoad ? (
             <iframe
               src={mapSrc}
@@ -195,11 +199,8 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
               allowFullScreen
             />
           ) : (
-            // ✅ UI o‘zgarmasligi uchun o‘sha o‘lchamda placeholder
             <div className={`w-full ${mapHeightClassName} grid place-items-center`}>
-              <div className="text-xs text-white/70">
-                Xarita yuklanmoqda…
-              </div>
+              <div className="text-xs text-white/70">Xarita yuklanmoqda…</div>
             </div>
           )}
 

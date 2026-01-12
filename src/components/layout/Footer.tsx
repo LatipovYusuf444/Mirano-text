@@ -34,11 +34,10 @@ const Footer = () => {
           transition={{ duration: 0.8 }}
         >
           <LuxuryMapCard
-            title="Mirano Textile • Manzil"
-            address="Namangan viloyati, O‘zbekiston"
-            placeQuery="Namangan, Uzbekistan"
-            travelMode="driving"
-            className="rounded-3xl"
+            title="Bizning manzil"
+            address="Andijon viloyati, Andijon shahri"
+            lat={40.709533}
+            lng={72.55911}
             mapHeightClassName="h-[320px] md:h-[420px] lg:h-[520px]"
           />
         </motion.div>
@@ -64,18 +63,18 @@ const Footer = () => {
 
             <div className="flex gap-4">
               <a
-                href="https://instagram.com/"
+                href="https://www.instagram.com/mirabrand_uz?igsh=MWxmdDJ5czR3cWxmZg=="
                 target="_blank"
                 className="p-3 rounded-full bg-white/10 hover:bg-orange-500 transition"
               >
-                <Instagram size={18} />
+                <Instagram size={20} />
               </a>
               <a
-                href="https://t.me/"
+                href="https://t.me/mirabrand_uz"
                 target="_blank"
                 className="p-3 rounded-full bg-white/10 hover:bg-orange-500 transition"
               >
-                <Send size={18} />
+                <Send size={20} />
               </a>
             </div>
           </div>
@@ -101,11 +100,11 @@ const Footer = () => {
 
           {/* CONTACT */}
           <div className="space-y-4">
-            <h4 className="font-semibold text-lg">Aloqa</h4>
+            <h4 className="font-semibold text-lg">Aloqa uchun</h4>
 
             <div className="flex items-center gap-3 text-sm text-neutral-300">
               <Phone size={16} className="text-orange-500" />
-              +998 (90) 123-45-67
+              +998 (90) 770 40 40
             </div>
 
             <div className="flex items-center gap-3 text-sm text-neutral-300">
@@ -115,19 +114,17 @@ const Footer = () => {
 
             <div className="flex items-start gap-3 text-sm text-neutral-300">
               <MapPin size={16} className="text-orange-500 mt-1" />
-              Namangan viloyati
+              Andijon viloyati
             </div>
           </div>
-
           {/* OPTIONAL: EXTRA COLUMN (agar 4-col bo‘sh qolmasin desangiz) */}
           <div className="space-y-4">
             <h4 className="font-semibold text-lg">Ish vaqti</h4>
             <p className="text-sm text-neutral-300 leading-relaxed">
-              Dushanba - Shanba: 09:00 - 18:00
+              Dushanba - Shanba: 08:00 - 18:00
               <br />
               Yakshanba: Dam olish
             </p>
-
             <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4">
               <p className="text-sm text-neutral-200 font-semibold">
                 Taklif/Buyurtma

@@ -4,6 +4,7 @@ import About from "@/components/pages/About"
 import FeaturedServices from "@/components/pages/BizningHizmatlar"
 import CatalogCarousel from "@/components/pages/CatalogCarusel"
 import Figures from "@/components/pages/Figures"
+import Testimonials from "@/components/pages/Otzif"
 
 export default function HomePage() {
   return (
@@ -30,7 +31,7 @@ export default function HomePage() {
       <section id="biz-haqimizda" className="scroll-mt-24">
         <FeaturedServices />
       </section>
-
+      <Testimonials />
       {/* ✅ oldingi location endi figures bo‘ldi */}
       <section id="figures" className="scroll-mt-24">
         <Figures />
