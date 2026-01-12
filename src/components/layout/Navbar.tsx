@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { useTranslation } from "react-i18next"
 import i18n from "i18next"
+import { Link } from "react-router-dom"
 
 const LANGS = [
   { code: "uz", label: "UZ" },
@@ -137,18 +138,23 @@ const Navbar = () => {
       >
         <div className="flex items-center justify-between gap-3">
           {/* LOGO */}
-          <motion.img
-            src={logo}
-            alt="Mirano Logo"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3 }}
-            className={`
-              object-contain transition-all duration-300 ease-out
-              ${shrink ? "w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16" : "w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20"}
-            `}
-          />
+          <Link to="/" aria-label="Bosh sahifa">
+            <motion.img
+              src={logo}
+              alt="Mirano Logo"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3 }}
+              className={`
+      cursor-pointer
+      object-contain transition-all duration-300 ease-out
+      ${shrink
+                  ? "w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16"
+                  : "w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20"}
+    `}
+            />
+          </Link>
 
           {/* ✅ Desktop NAV + Controls */}
           <div className="hidden md:flex items-center gap-3 lg:gap-5 min-w-0">
