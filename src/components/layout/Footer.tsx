@@ -144,7 +144,6 @@ const Footer = () => {
             </div>
           </div>
         </motion.div>
-
         <div className="mt-20 border-t border-white/10 pt-6 text-center text-sm text-neutral-400">
           © {new Date().getFullYear()} {t("footer.bottom")}
         </div>

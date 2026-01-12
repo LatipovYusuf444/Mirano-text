@@ -6,9 +6,9 @@
     "location": "Location"
   },
   "hero": {
-    "title1": "Sifatli Textil",
-    "title2": "San'ati",
-    "desc": "Bizning matolarimiz zamonaviy texnologiyalar va an’anaviy to‘quv uslublari uyg‘unligida yaratiladi.",
+    "title1": "Sifatli Textile",
+    "title2": "Maxsulotlari",
+    "desc": "Mukammal bichim, yumshoq mato va zamonaviy dizayn.\nHar bir detalda sifat, har bir kiyishda ishonch.",
     "cta": "Telegram"
   },
   "footer": {
@@ -30,7 +30,7 @@
     "contact": {
       "title": "Aloqa uchun",
       "phone": "+998 (90) 770 40 40",
-      "email": "info@mirano.uz",
+      "email": "ashurov4445@gmail.com",
       "region": "Andijon viloyati"
     },
     "hours": {
