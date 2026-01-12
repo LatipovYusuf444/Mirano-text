@@ -1,6 +1,7 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react"
 import { motion, useInView, useReducedMotion } from "framer-motion"
 import bgImage from "@/assets/svg/ChatGPT Image 10 янв. 2026 г., 14_29_19.webp"
+import { useTranslation } from "react-i18next"
 
 interface CounterProps {
   target: number
@@ -14,8 +15,6 @@ const Counter = memo(function Counter({
   duration = 2000,
 }: CounterProps) {
   const ref = useRef<HTMLSpanElement | null>(null)
-
-  // ✅ ko‘rinishga yaqinlashganda boshlasin (qotish kamroq, smoothroq)
   const isInView = useInView(ref, { once: true, amount: 0.4, margin: "200px" })
   const reduceMotion = useReducedMotion()
 
@@ -28,7 +27,6 @@ const Counter = memo(function Counter({
   useEffect(() => {
     if (!isInView) return
 
-    // ✅ Reduce motion bo‘lsa: darrov target
     if (reduceMotion) {
       setCount(target)
       return
@@ -42,7 +40,6 @@ const Counter = memo(function Counter({
     }
 
     const tick = (t: number) => {
-      // ✅ tab background bo‘lsa: setState qilmaydi, CPU kam
       if (document.hidden) {
         rafId.current = requestAnimationFrame(tick)
         return
@@ -58,24 +55,20 @@ const Counter = memo(function Counter({
         setCount(value)
       }
 
-      if (progress < 1) {
-        rafId.current = requestAnimationFrame(tick)
-      } else {
+      if (progress < 1) rafId.current = requestAnimationFrame(tick)
+      else {
         setCount(target)
         stop()
       }
     }
 
-    // reset
     startTime.current = 0
     lastValue.current = -1
     setCount(0)
 
     rafId.current = requestAnimationFrame(tick)
 
-    const onVis = () => {
-      // visible/hidden logikasi tick ichida
-    }
+    const onVis = () => { }
     document.addEventListener("visibilitychange", onVis)
 
     return () => {
@@ -98,7 +91,8 @@ const fadeUp = {
 }
 
 const Figures = () => {
-  // ✅ style object stable
+  const { t } = useTranslation()
+
   const bgStyle = useMemo(
     () => ({
       backgroundImage: `url(${bgImage})`,
@@ -108,7 +102,6 @@ const Figures = () => {
     []
   )
 
-  // ✅ butun section ko‘ringanda animatsiya ishga tushsin (ko‘rinmaganda ishlamaydi)
   const sectionRef = useRef<HTMLElement | null>(null)
   const sectionInView = useInView(sectionRef, { once: true, amount: 0.2, margin: "150px" })
 
@@ -118,7 +111,6 @@ const Figures = () => {
       className="relative w-full min-h-screen flex items-center text-white pt-20 pb-20"
       style={bgStyle}
     >
-      {/* Overlay */}
       <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/30" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
@@ -132,20 +124,15 @@ const Figures = () => {
             className="space-y-6"
           >
             <span className="text-orange-500 font-semibold tracking-widest uppercase text-sm">
-              ✦ 02. Asosiy Ko‘rsatkichlar
+              {t("figures.kicker")}
             </span>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-              To‘qimachilik <br />
-              Sanoatining <br />
-              Kelajagini <br />
-              Yaratmoqdamiz
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight whitespace-pre-line">
+              {t("figures.title")}
             </h1>
 
             <p className="text-neutral-300 max-w-xl">
-              Biz mahsulot va ishlab chiqarish jarayonlarini rivojlantirishda
-              barqarorlik, sifat va inson omilini birinchi o‘ringa qo‘yamiz.
-              Atrof-muhit va jamiyatni asrash — bizning ustuvor maqsadimiz.
+              {t("figures.desc")}
             </p>
           </motion.div>
 
@@ -161,9 +148,9 @@ const Figures = () => {
               <h3 className="text-5xl font-extrabold">
                 <Counter target={26} suffix="+" />
               </h3>
-              <p className="font-semibold">Yillik Tajriba</p>
+              <p className="font-semibold">{t("figures.stats.exp.title")}</p>
               <p className="text-sm text-neutral-400">
-                O‘n yillardan ortiq muvaffaqiyatli ishlab chiqarish tajribasi.
+                {t("figures.stats.exp.desc")}
               </p>
             </div>
 
@@ -171,9 +158,9 @@ const Figures = () => {
               <h3 className="text-5xl font-extrabold">
                 <Counter target={690} suffix="K" />
               </h3>
-              <p className="font-semibold">Oylik Ishlab Chiqarish</p>
+              <p className="font-semibold">{t("figures.stats.monthly.title")}</p>
               <p className="text-sm text-neutral-400">
-                Har oy 690 ming metr mato ishlab chiqariladi.
+                {t("figures.stats.monthly.desc")}
               </p>
             </div>
 
@@ -181,9 +168,9 @@ const Figures = () => {
               <h3 className="text-5xl font-extrabold">
                 <Counter target={99} suffix="%" />
               </h3>
-              <p className="font-semibold">Mijozlar Qoniqishi</p>
+              <p className="font-semibold">{t("figures.stats.satisfaction.title")}</p>
               <p className="text-sm text-neutral-400">
-                Natijaga asoslangan uzoq muddatli hamkorlik.
+                {t("figures.stats.satisfaction.desc")}
               </p>
             </div>
           </motion.div>

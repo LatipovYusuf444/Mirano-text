@@ -1,14 +1,15 @@
-import { memo, useEffect, useMemo, useRef, useState } from "react";
-import img1 from "@/assets/images/11.webp";
-import img2 from "@/assets/images/12.webp";
-import img3 from "@/assets/images/10.webp";
+import { memo, useEffect, useMemo, useRef, useState } from "react"
+import img1 from "@/assets/images/11.webp"
+import img2 from "@/assets/images/12.webp"
+import img3 from "@/assets/images/10.webp"
 
 import {
   motion,
   AnimatePresence,
   type Variants,
   useReducedMotion,
-} from "framer-motion";
+} from "framer-motion"
+import { useTranslation } from "react-i18next"
 
 const container: Variants = {
   hidden: { opacity: 1 },
@@ -16,7 +17,7 @@ const container: Variants = {
     opacity: 1,
     transition: { staggerChildren: 0.12 },
   },
-};
+}
 
 const fadeUp: Variants = {
   hidden: { opacity: 0, y: 40 },
@@ -25,59 +26,56 @@ const fadeUp: Variants = {
     y: 0,
     transition: { duration: 0.6, ease: "easeOut" },
   },
-};
+}
 
 function preloadImage(src: string) {
-  const img = new Image();
-  img.src = src;
+  const img = new Image()
+  img.src = src
 }
 
 const About = memo(function About() {
-  const shouldReduceMotion = useReducedMotion();
+  const { t } = useTranslation()
+  const shouldReduceMotion = useReducedMotion()
 
-  // ✅ images har renderda qayta yaratilmaydi
-  const images = useMemo(() => [img1, img2, img3], []);
-  const [active, setActive] = useState(0);
+  const images = useMemo(() => [img1, img2, img3], [])
+  const [active, setActive] = useState(0)
 
-  const intervalMs = 2500;
-  const timerRef = useRef<number | null>(null);
+  const intervalMs = 2500
+  const timerRef = useRef<number | null>(null)
 
   const stop = () => {
     if (timerRef.current) {
-      window.clearInterval(timerRef.current);
-      timerRef.current = null;
+      window.clearInterval(timerRef.current)
+      timerRef.current = null
     }
-  };
+  }
 
   const start = () => {
-    stop();
+    stop()
     timerRef.current = window.setInterval(() => {
-      setActive((p) => (p + 1) % images.length);
-    }, intervalMs);
-  };
+      setActive((p) => (p + 1) % images.length)
+    }, intervalMs)
+  }
 
-  // ✅ keyingi rasmni oldindan yuklash (freeze kamayadi)
   useEffect(() => {
-    const next = (active + 1) % images.length;
-    preloadImage(images[next]);
-  }, [active, images]);
+    const next = (active + 1) % images.length
+    preloadImage(images[next])
+  }, [active, images])
 
-  // ✅ interval: tab background bo‘lsa pause
   useEffect(() => {
     const onVis = () => {
-      if (document.hidden) stop();
-      else start();
-    };
+      if (document.hidden) stop()
+      else start()
+    }
 
-    start();
-    document.addEventListener("visibilitychange", onVis);
+    start()
+    document.addEventListener("visibilitychange", onVis)
 
     return () => {
-      stop();
-      document.removeEventListener("visibilitychange", onVis);
-    };
-    // images stable (useMemo) bo‘lgani uchun dependency xavfsiz
-  }, [images]);
+      stop()
+      document.removeEventListener("visibilitychange", onVis)
+    }
+  }, [images])
 
   return (
     <section className="relative w-full bg-neutral-950 py-24 overflow-hidden">
@@ -101,7 +99,7 @@ const About = memo(function About() {
                 <motion.img
                   key={active}
                   src={images[active]}
-                  alt="Textile Workshop"
+                  alt={t("about.imageAlt")}
                   loading="lazy"
                   decoding="async"
                   className="absolute inset-0 h-full w-full object-cover"
@@ -114,7 +112,6 @@ const About = memo(function About() {
                       : { duration: 0.9, ease: "easeInOut" }
                   }
                   draggable={false}
-                  // ✅ opacity anim silliqroq, repaint kamroq
                   style={{ willChange: "opacity" }}
                 />
               </AnimatePresence>
@@ -125,35 +122,28 @@ const About = memo(function About() {
         {/* CONTENT */}
         <motion.div variants={fadeUp} className="text-white space-y-7">
           <span className="uppercase tracking-[0.3em] text-orange-400 text-xs font-semibold">
-            About Mirano Textile
+            {t("about.kicker")}
           </span>
 
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">
-            An’anaviy sifat
+            {t("about.title.line1")}
             <br />
-            <span className="text-orange-400">Zamonaviy dizayn bilan</span>
+            <span className="text-orange-400">{t("about.title.highlight")}</span>
           </h2>
 
-          <p className="text-white/75 text-base leading-relaxed max-w-xl">
-            Mirano Textile — bu yuqori sifatli matolar, mukammal bichim va
-            zamonaviy minimalistik uslub uyg‘unligi. Biz ishlab chiqaradigan har
-            bir futbolka qulaylik, mustahkamlik va estetikani birlashtirib,
-            kundalik hayotingizda ishonchli tanlov bo‘lib xizmat qiladi.
-            <br />
-            <br />
-            Futbolkalarimiz uzoq vaqt davomida shaklini yo‘qotmaydi, rangini
-            saqlaydi va har mavsumda qulay kiyinish imkonini beradi.
+          <p className="text-white/75 text-base leading-relaxed max-w-xl whitespace-pre-line">
+            {t("about.desc")}
           </p>
 
           <p className="text-white/75 text-base leading-relaxed">
-            S · M · L · XL · XXL
+            {t("about.sizes")}
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-6">
             {[
-              { label: "Yillik Tajriba", value: "15+" },
-              { label: "Mahsulotlar", value: "102+" },
-              { label: "Hamkorlar", value: "72+" },
+              { label: t("about.stats.experience"), value: "15+" },
+              { label: t("about.stats.products"), value: "102+" },
+              { label: t("about.stats.partners"), value: "72+" },
             ].map((item, i) => (
               <div
                 key={i}
@@ -176,7 +166,7 @@ const About = memo(function About() {
         </motion.div>
       </motion.div>
     </section>
-  );
-});
+  )
+})
 
-export default About;
+export default About

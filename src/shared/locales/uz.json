@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "info": "Ma'lumotlar",
+    "catalog": "Catalog",
+    "about": "Biz haqimizda",
+    "location": "Location"
+  },
+  "hero": {
+    "title1": "Sifatli Textil",
+    "title2": "San'ati",
+    "desc": "Bizning matolarimiz zamonaviy texnologiyalar va an’anaviy to‘quv uslublari uyg‘unligida yaratiladi.",
+    "cta": "Telegram"
+  },
+  "footer": {
+    "map": {
+      "title": "Bizning manzil",
+      "address": "Andijon viloyati, Andijon shahri"
+    },
+    "brand": {
+      "desc": "Biz texnik to‘qimachilik sohasida sifat, ishonch va innovatsiyani birlashtirgan holda xalqaro darajadagi mahsulotlar ishlab chiqaramiz."
+    },
+    "links": {
+      "title": "Tezkor Havolalar",
+      "about": "Biz haqimizda",
+      "services": "Xizmatlar",
+      "products": "Mahsulotlar",
+      "blog": "Blog",
+      "contact": "Aloqa"
+    },
+    "contact": {
+      "title": "Aloqa uchun",
+      "phone": "+998 (90) 770 40 40",
+      "email": "info@mirano.uz",
+      "region": "Andijon viloyati"
+    },
+    "hours": {
+      "title": "Ish vaqti",
+      "text": "Dushanba - Shanba: 08:00 - 18:00\nYakshanba: Dam olish"
+    },
+    "card": {
+      "title": "Taklif/Buyurtma",
+      "desc": "Biz bilan bog‘laning — tez javob beramiz."
+    },
+    "bottom": "Mirano Textile. Barcha huquqlar himoyalangan."
+  },
+  "about": {
+    "imageAlt": "Textile Workshop",
+    "kicker": "About Mirano Textile",
+    "title": {
+      "line1": "An’anaviy sifat",
+      "highlight": "Zamonaviy dizayn bilan"
+    },
+    "desc": "Mirano Textile — bu yuqori sifatli matolar, mukammal bichim va zamonaviy minimalistik uslub uyg‘unligi. Biz ishlab chiqaradigan har bir futbolka qulaylik, mustahkamlik va estetikani birlashtirib, kundalik hayotingizda ishonchli tanlov bo‘lib xizmat qiladi.\n\nFutbolkalarimiz uzoq vaqt davomida shaklini yo‘qotmaydi, rangini saqlaydi va har mavsumda qulay kiyinish imkonini beradi.",
+    "sizes": "S · M · L · XL · XXL",
+    "stats": {
+      "experience": "Yillik Tajriba",
+      "products": "Mahsulotlar",
+      "partners": "Hamkorlar"
+    }
+  },
+  "services": {
+    "kicker": "02. Featured Services",
+    "title": "Bizning Xizmatlar",
+    "hint": "⟵ Avtomatik harakatlanadi, ustiga bosilsa to‘xtaydi",
+    "items": {
+      "customSewing": {
+        "title": "Maxsus Tikuv",
+        "desc": "Buyurtma asosida yuqori sifatli textile mahsulotlar."
+      },
+      "modernProduction": {
+        "title": "Zamonaviy Ishlab Chiqarish",
+        "desc": "Yangi texnologiyalar asosida ishlab chiqarish jarayoni."
+      },
+      "exclusiveDesign": {
+        "title": "Eksklyuziv Dizayn",
+        "desc": "Trend va an’anaviy uslublar uyg‘unligi."
+      },
+      "fastDelivery": {
+        "title": "Tezkor Yetkazib Berish",
+        "desc": "O‘z vaqtida va xavfsiz yetkazib berish xizmati."
+      }
+    }
+  },
+  "catalog": {
+    "title": "Catalog",
+    "topHint": "Auto carousel • hover bo‘lsa to‘xtaydi • luxury glass cards",
+    "badgeWholesale": "Optom",
+    "badgeHint": "Narxlarda",
+    "subtitle": "Yuqori sifat • Zamonaviy to‘quv • Tez yetkazish",
+    "price": "Narxi",
+    "wholesale": "Optom",
+    "size": "Razmer"
+  },
+  "figures": {
+    "kicker": "✦ 02. Asosiy Ko‘rsatkichlar",
+    "title": "To‘qimachilik\nSanoatining\nKelajagini\nYaratmoqdamiz",
+    "desc": "Biz mahsulot va ishlab chiqarish jarayonlarini rivojlantirishda barqarorlik, sifat va inson omilini birinchi o‘ringa qo‘yamiz. Atrof-muhit va jamiyatni asrash — bizning ustuvor maqsadimiz.",
+    "stats": {
+      "exp": {
+        "title": "Yillik Tajriba",
+        "desc": "O‘n yillardan ortiq muvaffaqiyatli ishlab chiqarish tajribasi."
+      },
+      "monthly": {
+        "title": "Oylik Ishlab Chiqarish",
+        "desc": "Har oy 690 ming metr mato ishlab chiqariladi."
+      },
+      "satisfaction": {
+        "title": "Mijozlar Qoniqishi",
+        "desc": "Natijaga asoslangan uzoq muddatli hamkorlik."
+      }
+    }
+  },
+  "testimonials": {
+    "kicker": "✦ 08. Mijozlar fikri",
+    "title": "Mijozlarimiz\nBiz Haqimizda Nima Deydi",
+    "cardTitle": "A’lo darajadagi xizmat",
+    "items": [
+      {
+        "name": "Jasmina Karimova",
+        "role": "Biznes egasi",
+        "text": "Mahsulot sifati juda yuqori. Buyurtmalar doimo o‘z vaqtida va mukammal bajariladi. Hamkorlikdan juda mamnunmiz."
+      },
+      {
+        "name": "Akmal Rustamov",
+        "role": "Konsultant",
+        "text": "Zamonaviy texnologiyalar va professional jamoa. Extice bilan ishlash ishonchli va qulay."
+      },
+      {
+        "name": "Madina Soliyeva",
+        "role": "Bloger, jurnalist",
+        "text": "Dizayn va mato sifati meni hayratda qoldirdi. Brend haqiqiy premium darajada."
+      },
+      {
+        "name": "Diyorbek Jo‘rayev",
+        "role": "Mijoz",
+        "text": "Uzoq muddatli hamkorlik uchun ideal kompaniya. Sifat va mas’uliyat doimiy."
+      }
+    ]
+  },
+  "map": {
+    "title": "Bizning manzil",
+    "address": "40.709533, 72.559110",
+    "route": "Marshrut",
+    "openTitle": "Google Maps’da ochish",
+    "openAria": "Google Maps’da ochish",
+    "loading": "Xarita yuklanmoqda…",
+    "note": "📌 Xarita interaktiv: zoom/drag ishlaydi. “Marshrut” bosilsa yo‘nalish ochiladi."
+  }
+}

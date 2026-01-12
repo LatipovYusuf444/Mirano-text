@@ -1,19 +1,46 @@
 import logo from "@/assets/images/mirano-bg-text.webp"
 import bgimage from "@/assets/images/bgimagesss.webp"
 import telefonbg from "@/assets/images/telefonbg.webp"
-import { useEffect, useState } from "react"
-import { ArrowUpRight } from "lucide-react"
+import { useEffect, useMemo, useRef, useState } from "react"
+import { ArrowUpRight, ChevronDown, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
+import { useTranslation } from "react-i18next"
+import i18n from "i18next"
+
+const LANGS = [
+  { code: "uz", label: "UZ" },
+  { code: "ru", label: "RU" },
+  { code: "en", label: "EN" },
+] as const
+
+type LangCode = (typeof LANGS)[number]["code"]
 
 const Navbar = () => {
-  const navItems = [
-    { label: "Ma'lumotlar", href: "#malumotlar" },
-    { label: "Catalog", href: "#catalog" },
-    { label: "Biz haqimizda", href: "#biz-haqimizda" },
-    { label: "Location", href: "#location" },
-  ]
+  const { t } = useTranslation()
+
+  const navItems = useMemo(
+    () => [
+      { label: t("nav.info"), href: "#malumotlar" },
+      { label: t("nav.catalog"), href: "#catalog" },
+      { label: t("nav.about"), href: "#biz-haqimizda" },
+      { label: t("nav.location"), href: "#location" },
+    ],
+    [t]
+  )
+
   const [shrink, setShrink] = useState(false)
+
+  // lang dropdown
+  const [openLang, setOpenLang] = useState(false)
+  const langRef = useRef<HTMLDivElement | null>(null)
+  const currentLang = (i18n.language?.slice(0, 2) as LangCode) || "uz"
+
+  const setLang = (lng: LangCode) => {
+    i18n.changeLanguage(lng)
+    localStorage.setItem("lang", lng)
+    setOpenLang(false)
+  }
 
   useEffect(() => {
     const onScroll = () => setShrink(window.scrollY > 40)
@@ -21,7 +48,6 @@ const Navbar = () => {
     window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
-
 
   // ✅ Smooth scroll + fixed navbar offset
   useEffect(() => {
@@ -37,16 +63,12 @@ const Navbar = () => {
 
       e.preventDefault()
 
-      // header balandligi (responsive)
       const header = document.getElementById("site-header")
       const headerH = header ? header.getBoundingClientRect().height : 0
 
-      const top =
-        el.getBoundingClientRect().top + window.scrollY - (headerH + 16)
+      const top = el.getBoundingClientRect().top + window.scrollY - (headerH + 16)
 
       window.scrollTo({ top, behavior: "smooth" })
-
-      // URL hashni ham update qilsin (optional)
       history.pushState(null, "", href)
     }
 
@@ -54,9 +76,20 @@ const Navbar = () => {
     return () => document.removeEventListener("click", handleClick)
   }, [])
 
+  // ✅ dropdown tashqarisiga bosilsa yopilsin
+  useEffect(() => {
+    const onDoc = (e: MouseEvent) => {
+      if (!openLang) return
+      const el = langRef.current
+      if (!el) return
+      if (e.target instanceof Node && !el.contains(e.target)) setOpenLang(false)
+    }
+    document.addEventListener("mousedown", onDoc)
+    return () => document.removeEventListener("mousedown", onDoc)
+  }, [openLang])
+
   return (
     <div className="relative min-h-screen w-full overflow-hidden flex flex-col">
-      {/* ✅ Background image (responsiv) */}
       <img
         src={telefonbg}
         alt=""
@@ -66,7 +99,6 @@ const Navbar = () => {
         decoding="async"
       />
 
-      {/* 🖥 DESKTOP background */}
       <img
         src={bgimage}
         alt=""
@@ -76,25 +108,22 @@ const Navbar = () => {
         decoding="async"
       />
 
-      {/* ✅ Overlay */}
       <div className="absolute inset-0 -z-10 bg-black/60 sm:bg-black/50 pointer-events-none" />
       <div className="absolute inset-0 -z-10 pointer-events-none [background:radial-gradient(circle_at_30%_20%,rgba(255,180,80,0.10),transparent_45%),radial-gradient(circle_at_80%_70%,rgba(255,255,255,0.06),transparent_55%)]" />
       <div className="absolute inset-0 -z-10 pointer-events-none opacity-50 [background:radial-gradient(circle_at_center,transparent_35%,rgba(0,0,0,0.85))]" />
 
-      {/* ✅ FIXED HEADER */}
       <header
         id="site-header"
         className={`
-    fixed top-0 left-0 right-0 z-50
-    flex items-center justify-between
-    px-4 md:px-10
-    backdrop-blur-xl bg-black/20
-    border-b border-white/10
-    transition-all duration-300 ease-out
-    ${shrink ? "py-3" : "py-5"}
-  `}
+          fixed top-0 left-0 right-0 z-50
+          flex items-center justify-between
+          px-4 md:px-10
+          backdrop-blur-xl bg-black/20
+          border-b border-white/10
+          transition-all duration-300 ease-out
+          ${shrink ? "py-3" : "py-5"}
+        `}
       >
-        {/* LOGO */}
         <motion.img
           src={logo}
           alt="Mirano Logo"
@@ -103,41 +132,92 @@ const Navbar = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.3 }}
           className={`
-    object-contain transition-all duration-300 ease-out
-    ${shrink
-              ? "w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16"
-              : "w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20"}
-  `}
+            object-contain transition-all duration-300 ease-out
+            ${shrink ? "w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16" : "w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20"}
+          `}
         />
 
+        <div className="flex items-center gap-3 sm:gap-5">
+          <nav className="flex items-center gap-4 sm:gap-6 md:gap-10">
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                className="
+                  relative text-white/90 font-medium
+                  text-xs sm:text-sm md:text-base
+                  hover:text-white
+                  transition-colors duration-300
+                  after:content-[''] after:absolute after:left-0
+                  after:-bottom-2 after:h-[2px] after:w-0
+                  after:bg-white/90 after:transition-all
+                  after:duration-500 after:ease-out
+                  hover:after:w-full
+                "
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
 
-        {/* NAV LINKS */}
-        <nav className="flex items-center gap-4 sm:gap-6 md:gap-10">
-          {navItems.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
+          {/* ✅ Language Switcher (Dropdown) */}
+          <div ref={langRef} className="relative">
+            <button
+              type="button"
+              onClick={() => setOpenLang((v) => !v)}
               className="
-                relative text-white/90 font-medium
-                text-xs sm:text-sm md:text-base
-                hover:text-white
-                transition-colors duration-300
-                after:content-[''] after:absolute after:left-0
-                after:-bottom-2 after:h-[2px] after:w-0
-                after:bg-white/90 after:transition-all
-                after:duration-500 after:ease-out
-                hover:after:w-full
+                inline-flex items-center gap-2
+                rounded-full px-3 py-2
+                bg-white/8 hover:bg-white/12
+                border border-white/12
+                text-white/90
+                text-xs sm:text-sm
+                backdrop-blur-xl
+                transition
               "
+              aria-label="Tilni o‘zgartirish"
+              title="Tilni o‘zgartirish"
             >
-              {item.label}
-            </a>
-          ))}
-        </nav>
+              <Globe className="w-4 h-4 text-orange-300" />
+              <span className="font-semibold">{currentLang.toUpperCase()}</span>
+              <ChevronDown className={`w-4 h-4 transition ${openLang ? "rotate-180" : ""}`} />
+            </button>
+
+            {openLang ? (
+              <div
+                className="
+                  absolute right-0 mt-2 w-28
+                  rounded-xl overflow-hidden
+                  border border-white/12
+                  bg-black/55 backdrop-blur-xl
+                  shadow-[0_18px_60px_rgba(0,0,0,0.55)]
+                "
+              >
+                {LANGS.map((l) => {
+                  const active = currentLang === l.code
+                  return (
+                    <button
+                      key={l.code}
+                      type="button"
+                      onClick={() => setLang(l.code)}
+                      className={`
+                        w-full px-3 py-2 text-left text-sm
+                        transition
+                        ${active ? "bg-white/14 text-white" : "text-white/85 hover:bg-white/10"}
+                      `}
+                    >
+                      {l.label}
+                    </button>
+                  )
+                })}
+              </div>
+            ) : null}
+          </div>
+        </div>
       </header>
 
-      {/* ✅ Header fixed bo‘lgani uchun content tepaga kirib ketmasin */}
       <div className={shrink ? "h-[72px] sm:h-[76px] md:h-[88px]" : "h-[92px] sm:h-[96px] md:h-[116px]"} />
-      {/* HERO */}
+
       <main className="relative z-10 flex-1 flex items-center">
         <motion.div
           initial={{ opacity: 0, x: -30 }}
@@ -147,13 +227,12 @@ const Navbar = () => {
           className="px-4 md:px-16 max-w-3xl space-y-5"
         >
           <h1 className="font-extrabold text-white text-3xl sm:text-4xl md:text-6xl leading-tight">
-            Sifatli Textil
-            <span className="text-orange-400"> San'ati</span>
+            {t("hero.title1")}
+            <span className="text-orange-400"> {t("hero.title2")}</span>
           </h1>
 
           <p className="text-white/90 text-sm sm:text-base md:text-xl font-medium">
-            Bizning matolarimiz zamonaviy texnologiyalar va an’anaviy
-            to‘quv uslublari uyg‘unligida yaratiladi.
+            {t("hero.desc")}
           </p>
 
           <Button
@@ -172,7 +251,7 @@ const Navbar = () => {
               flex items-center gap-2
             "
           >
-            Telegram <ArrowUpRight className="w-5 h-5" />
+            {t("hero.cta")} <ArrowUpRight className="w-5 h-5" />
           </Button>
         </motion.div>
       </main>

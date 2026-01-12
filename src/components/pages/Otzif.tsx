@@ -1,38 +1,46 @@
 import { motion } from "framer-motion"
 import { Star } from "lucide-react"
-
-const testimonials = [
-  {
-    name: "Jasmina Karimova",
-    role: "Biznes egasi",
-    text: "Mahsulot sifati juda yuqori. Buyurtmalar doimo o‘z vaqtida va mukammal bajariladi. Hamkorlikdan juda mamnunmiz.",
-  },
-  {
-    name: "Akmal Rustamov",
-    role: "Konsultant",
-    text: "Zamonaviy texnologiyalar va professional jamoa. Extice bilan ishlash ishonchli va qulay.",
-  }, 
-  {
-    name: "Madina Soliyeva",
-    role: "Bloger, jurnalist",
-    text: "Dizayn va mato sifati meni hayratda qoldirdi. Brend haqiqiy premium darajada.",
-  },
-  {
-    name: "Diyorbek Jo‘rayev",
-    role: "Mijoz",
-    text: "Uzoq muddatli hamkorlik uchun ideal kompaniya. Sifat va mas’uliyat doimiy.",
-  },
-]
+import { useMemo } from "react"
+import { useTranslation } from "react-i18next"
 
 const fadeUp = {
   hidden: { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0 },
 }
+
 const Testimonials = () => {
+  const { t } = useTranslation()
+
+  // ✅ til o‘zgarsa ham avtomatik yangilanadi
+  const testimonials = useMemo(
+    () => [
+      {
+        name: t("testimonials.items.0.name"),
+        role: t("testimonials.items.0.role"),
+        text: t("testimonials.items.0.text"),
+      },
+      {
+        name: t("testimonials.items.1.name"),
+        role: t("testimonials.items.1.role"),
+        text: t("testimonials.items.1.text"),
+      },
+      {
+        name: t("testimonials.items.2.name"),
+        role: t("testimonials.items.2.role"),
+        text: t("testimonials.items.2.text"),
+      },
+      {
+        name: t("testimonials.items.3.name"),
+        role: t("testimonials.items.3.role"),
+        text: t("testimonials.items.3.text"),
+      },
+    ],
+    [t]
+  )
+
   return (
     <section className="py-28 bg-gradient-to-b from-black via-[#0e0e0e] to-black text-white">
       <div className="max-w-7xl mx-auto px-6 md:px-10">
-
         {/* HEADER */}
         <motion.div
           variants={fadeUp}
@@ -43,12 +51,11 @@ const Testimonials = () => {
           className="text-center max-w-3xl mx-auto mb-20"
         >
           <span className="text-orange-500 uppercase tracking-widest text-sm font-semibold">
-            ✦ 08. Mijozlar fikri
+            {t("testimonials.kicker")}
           </span>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mt-4">
-            Mijozlarimiz <br className="hidden sm:block" />
-            Biz Haqimizda Nima Deydi
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mt-4 whitespace-pre-line">
+            {t("testimonials.title")}
           </h2>
         </motion.div>
 
@@ -73,24 +80,20 @@ const Testimonials = () => {
                 transition-all
               "
             >
-              {/* Stars */}
               <div className="flex gap-1 text-orange-500 mb-4">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} fill="currentColor" />
+                {[...Array(5)].map((_, idx) => (
+                  <Star key={idx} size={16} fill="currentColor" />
                 ))}
               </div>
 
-              {/* Title */}
               <h4 className="font-bold text-lg mb-3">
-                A’lo darajadagi xizmat
+                {t("testimonials.cardTitle")}
               </h4>
 
-              {/* Text */}
               <p className="text-sm text-neutral-300 leading-relaxed mb-8">
                 “{item.text}”
               </p>
 
-              {/* User */}
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center font-bold text-orange-500">
                   {item.name.charAt(0)}
@@ -103,7 +106,6 @@ const Testimonials = () => {
             </motion.div>
           ))}
         </div>
-
       </div>
     </section>
   )

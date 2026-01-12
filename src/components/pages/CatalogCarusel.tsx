@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { memo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, memo } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { Badge } from "@/components/ui/badge"
+import { useTranslation } from "react-i18next"
 
 /**
  * Rasmlar:
@@ -44,8 +44,30 @@ function formatUZS(value: number) {
   return `${new Intl.NumberFormat("uz-UZ").format(value)} so'm`
 }
 
+/** ✅ prefers-reduced-motion bo‘lsa autoplay o‘chadi (qotish kam) */
+function usePrefersReducedMotion() {
+  const [reduced, setReduced] = useState(false)
+
+  useEffect(() => {
+    const m = window.matchMedia?.("(prefers-reduced-motion: reduce)")
+    if (!m) return
+    const onChange = () => setReduced(m.matches)
+    onChange()
+    m.addEventListener?.("change", onChange)
+    return () => m.removeEventListener?.("change", onChange)
+  }, [])
+
+  return reduced
+}
+
 /** ✅ Memo: re-render kamayadi */
-const ProductCard = memo(function ProductCard({ p }: { p: Product }) {
+const ProductCard = memo(function ProductCard({
+  p,
+  t,
+}: {
+  p: Product
+  t: (key: string) => string
+}) {
   return (
     <article
       className="
@@ -79,8 +101,12 @@ const ProductCard = memo(function ProductCard({ p }: { p: Product }) {
         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 [background:radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.18),transparent_55%)]" />
 
         <div className="absolute left-3 bottom-3 flex items-center gap-2">
-          <Badge className="bg-orange-500/90 text-white border-0 shadow-md">Optom</Badge>
-          <span className="text-white/80 text-xs drop-shadow">Narxlarda</span>
+          <Badge className="bg-orange-500/90 text-white border-0 shadow-md">
+            {t("catalog.badgeWholesale")}
+          </Badge>
+          <span className="text-white/80 text-xs drop-shadow">
+            {t("catalog.badgeHint")}
+          </span>
         </div>
       </div>
 
@@ -90,23 +116,27 @@ const ProductCard = memo(function ProductCard({ p }: { p: Product }) {
             {p.name}
           </h3>
           <p className="text-white/75 text-xs sm:text-sm">
-            Yuqori sifat • Zamonaviy to‘quv • Tez yetkazish
+            {t("catalog.subtitle")}
           </p>
         </div>
 
         <div className="grid grid-cols-2 gap-3">
           <div className="rounded-xl border border-white/15 bg-black/10 p-3">
-            <p className="text-white/60 text-xs">Narxi</p>
-            <p className="text-white font-bold text-sm sm:text-base">{formatUZS(p.priceUZS)}</p>
+            <p className="text-white/60 text-xs">{t("catalog.price")}</p>
+            <p className="text-white font-bold text-sm sm:text-base">
+              {formatUZS(p.priceUZS)}
+            </p>
           </div>
           <div className="rounded-xl border border-white/15 bg-black/10 p-3">
-            <p className="text-white/60 text-xs">Optom</p>
-            <p className="text-white font-bold text-sm sm:text-base">{formatUZS(p.wholesaleUZS)}</p>
+            <p className="text-white/60 text-xs">{t("catalog.wholesale")}</p>
+            <p className="text-white font-bold text-sm sm:text-base">
+              {formatUZS(p.wholesaleUZS)}
+            </p>
           </div>
         </div>
 
         <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-white/70 text-xs">Razmer:</span>
+          <span className="text-white/70 text-xs">{t("catalog.size")}:</span>
           {p.sizes.map((s) => (
             <Badge
               key={s}
@@ -122,23 +152,9 @@ const ProductCard = memo(function ProductCard({ p }: { p: Product }) {
   )
 })
 
-/** ✅ prefers-reduced-motion bo‘lsa autoplay o‘chadi (qotish kam) */
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false)
-
-  useEffect(() => {
-    const m = window.matchMedia?.("(prefers-reduced-motion: reduce)")
-    if (!m) return
-    const onChange = () => setReduced(m.matches)
-    onChange()
-    m.addEventListener?.("change", onChange)
-    return () => m.removeEventListener?.("change", onChange)
-  }, [])
-
-  return reduced
-}
-
 export default function CatalogCarousel() {
+  const { t } = useTranslation()
+
   const [isHover, setIsHover] = useState(false)
   const reducedMotion = usePrefersReducedMotion()
 
@@ -166,13 +182,12 @@ export default function CatalogCarousel() {
     if (!emblaApi) return
     stopAutoplay()
 
-    // ✅ reduce motion bo‘lsa / hover bo‘lsa / tab hidden bo‘lsa autoplay yo‘q
     if (reducedMotion || isHover || document.hidden) return
 
     intervalId.current = window.setInterval(() => {
       if (!emblaApi) return
       emblaApi.scrollNext()
-    }, 2500) // ✅ 1500 juda tez, CPU ko‘p. 2500 premium ham.
+    }, 2500)
   }, [emblaApi, isHover, reducedMotion, stopAutoplay])
 
   useEffect(() => {
@@ -199,7 +214,6 @@ export default function CatalogCarousel() {
     }
   }, [emblaApi, startAutoplay, stopAutoplay])
 
-  // ✅ slides stable reference
   const slides = useMemo(() => PRODUCTS, [])
 
   return (
@@ -207,10 +221,10 @@ export default function CatalogCarousel() {
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white drop-shadow">
-            Catalog
+            {t("catalog.title")}
           </h2>
           <p className="text-white/75 mt-2 text-sm sm:text-base">
-            Auto carousel • hover bo‘lsa to‘xtaydi • luxury glass cards
+            {t("catalog.topHint")}
           </p>
         </div>
 
@@ -233,7 +247,7 @@ export default function CatalogCarousel() {
                     lg:flex-[0_0_33.333%]
                   "
                 >
-                  <ProductCard p={p} />
+                  <ProductCard p={p} t={t} />
                 </div>
               ))}
             </div>

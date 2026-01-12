@@ -1,0 +1,149 @@
+{
+  "nav": {
+    "info": "Info",
+    "catalog": "Catalog",
+    "about": "About us",
+    "location": "Location"
+  },
+  "hero": {
+    "title1": "Quality Textile",
+    "title2": "Art",
+    "desc": "Our fabrics are created by blending modern technologies with traditional weaving techniques.",
+    "cta": "Telegram"
+  },
+  "footer": {
+    "map": {
+      "title": "Our location",
+      "address": "Andijan region, Andijan city"
+    },
+    "brand": {
+      "desc": "We manufacture internationally competitive products by combining quality, trust, and innovation in technical textiles."
+    },
+    "links": {
+      "title": "Quick links",
+      "about": "About",
+      "services": "Services",
+      "products": "Products",
+      "blog": "Blog",
+      "contact": "Contact"
+    },
+    "contact": {
+      "title": "Contact",
+      "phone": "+998 (90) 770 40 40",
+      "email": "info@mirano.uz",
+      "region": "Andijan region"
+    },
+    "hours": {
+      "title": "Working hours",
+      "text": "Mon - Sat: 08:00 - 18:00\nSun: Closed"
+    },
+    "card": {
+      "title": "Inquiry / Order",
+      "desc": "Contact us — we reply fast."
+    },
+    "bottom": "Mirano Textile. All rights reserved."
+  },
+  "about": {
+    "imageAlt": "Textile Workshop",
+    "kicker": "About Mirano Textile",
+    "title": {
+      "line1": "Traditional quality",
+      "highlight": "With modern design"
+    },
+    "desc": "Mirano Textile combines premium fabrics, perfect tailoring, and a modern minimalist style. Every T-shirt we produce blends comfort, durability, and aesthetics—making it a reliable everyday choice.\n\nOur T-shirts keep their shape and color for a long time and stay comfortable in every season.",
+    "sizes": "S · M · L · XL · XXL",
+    "stats": {
+      "experience": "Years of experience",
+      "products": "Products",
+      "partners": "Partners"
+    }
+  },
+  "services": {
+    "kicker": "02. Featured Services",
+    "title": "Our Services",
+    "hint": "⟵ Moves automatically, pauses on hover",
+    "items": {
+      "customSewing": {
+        "title": "Custom Sewing",
+        "desc": "High-quality textile products made to order."
+      },
+      "modernProduction": {
+        "title": "Modern Production",
+        "desc": "Manufacturing process based on new technologies."
+      },
+      "exclusiveDesign": {
+        "title": "Exclusive Design",
+        "desc": "A blend of trends and traditional styles."
+      },
+      "fastDelivery": {
+        "title": "Fast Delivery",
+        "desc": "On-time and safe delivery service."
+      }
+    }
+  },
+  "catalog": {
+    "title": "Catalog",
+    "topHint": "Auto carousel • pauses on hover • luxury glass cards",
+    "badgeWholesale": "Wholesale",
+    "badgeHint": "Pricing",
+    "subtitle": "Premium quality • Modern weaving • Fast delivery",
+    "price": "Price",
+    "wholesale": "Wholesale",
+    "size": "Size"
+  },
+  "figures": {
+    "kicker": "✦ 02. Key Figures",
+    "title": "We build\nthe future\nof the textile\nindustry",
+    "desc": "As we improve products and production processes, we prioritize sustainability, quality, and the human factor. Protecting the environment and society is our top priority.",
+    "stats": {
+      "exp": {
+        "title": "Years of experience",
+        "desc": "Over a decade of successful manufacturing experience."
+      },
+      "monthly": {
+        "title": "Monthly production",
+        "desc": "We produce 690K meters of fabric every month."
+      },
+      "satisfaction": {
+        "title": "Customer satisfaction",
+        "desc": "Long-term partnerships built on results."
+      }
+    }
+  },
+  "testimonials": {
+    "kicker": "✦ 08. Testimonials",
+    "title": "What our clients\nsay about us",
+    "cardTitle": "Outstanding service",
+    "items": [
+      {
+        "name": "Jasmina Karimova",
+        "role": "Business owner",
+        "text": "The product quality is very high. Orders are always completed on time and flawlessly. We are very satisfied with the partnership."
+      },
+      {
+        "name": "Akmal Rustamov",
+        "role": "Consultant",
+        "text": "Modern technologies and a professional team. Working with Extice is reliable and convenient."
+      },
+      {
+        "name": "Madina Soliyeva",
+        "role": "Blogger, journalist",
+        "text": "The design and fabric quality impressed me. The brand is truly premium."
+      },
+      {
+        "name": "Diyorbek Jo‘rayev",
+        "role": "Customer",
+        "text": "An ideal company for long-term cooperation. Quality and responsibility are consistent."
+      }
+    ]
+  },
+  "map": {
+    "title": "Our location",
+    "address": "40.709533, 72.559110",
+    "route": "Directions",
+    "openTitle": "Open in Google Maps",
+    "openAria": "Open in Google Maps",
+    "loading": "Loading map…",
+    "note": "📌 Interactive map: zoom/drag works. Click “Directions” to open navigation."
+  }
+}

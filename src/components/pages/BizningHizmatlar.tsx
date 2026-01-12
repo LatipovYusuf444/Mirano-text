@@ -1,46 +1,50 @@
 import { motion } from "framer-motion"
 import { Scissors, Factory, Palette, Truck } from "lucide-react"
-import { useEffect, useRef, useState } from "react"
-
-const services = [
-  {
-    title: "Maxsus Tikuv",
-    desc: "Buyurtma asosida yuqori sifatli textile mahsulotlar.",
-    icon: Scissors,
-  },
-  {
-    title: "Zamonaviy Ishlab Chiqarish",
-    desc: "Yangi texnologiyalar asosida ishlab chiqarish jarayoni.",
-    icon: Factory,
-  },
-  {
-    title: "Eksklyuziv Dizayn",
-    desc: "Trend va an’anaviy uslublar uyg‘unligi.",
-    icon: Palette,
-  },
-  {
-    title: "Tezkor Yetkazib Berish",
-    desc: "O‘z vaqtida va xavfsiz yetkazib berish xizmati.",
-    icon: Truck,
-  },
-]
+import { useEffect, useMemo, useRef, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 const FeaturedServices = () => {
+  const { t } = useTranslation()
   const sliderRef = useRef<HTMLDivElement>(null)
   const [paused, setPaused] = useState(false)
+
+  // ✅ tarjima keylari bilan services (til o‘zgarsa avtomatik yangilanadi)
+  const services = useMemo(
+    () => [
+      {
+        title: t("services.items.customSewing.title"),
+        desc: t("services.items.customSewing.desc"),
+        icon: Scissors,
+      },
+      {
+        title: t("services.items.modernProduction.title"),
+        desc: t("services.items.modernProduction.desc"),
+        icon: Factory,
+      },
+      {
+        title: t("services.items.exclusiveDesign.title"),
+        desc: t("services.items.exclusiveDesign.desc"),
+        icon: Palette,
+      },
+      {
+        title: t("services.items.fastDelivery.title"),
+        desc: t("services.items.fastDelivery.desc"),
+        icon: Truck,
+      },
+    ],
+    [t]
+  )
 
   useEffect(() => {
     const slider = sliderRef.current
     if (!slider) return
 
     let rafId: number
-    const speed = 0.5 // 🔥 eng optimal
+    const speed = 0.5
 
     const animate = () => {
       if (!paused) {
         slider.scrollLeft += speed
-
-        // 🔁 Infinite loop (yarimiga qaytadi)
         if (slider.scrollLeft >= slider.scrollWidth / 2) {
           slider.scrollLeft = 0
         }
@@ -55,7 +59,6 @@ const FeaturedServices = () => {
   return (
     <section className="w-full bg-neutral-950 py-24">
       <div className="max-w-7xl mx-auto px-4 md:px-10">
-
         {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -65,10 +68,10 @@ const FeaturedServices = () => {
           className="mb-14"
         >
           <p className="uppercase tracking-widest text-orange-400 text-sm font-semibold">
-            02. Featured Services
+            {t("services.kicker")}
           </p>
           <h2 className="text-3xl md:text-5xl font-extrabold text-white mt-2">
-            Bizning Xizmatlar
+            {t("services.title")}
           </h2>
         </motion.div>
 
@@ -121,7 +124,7 @@ const FeaturedServices = () => {
         </div>
 
         <p className="text-white/40 text-sm mt-6">
-          ⟵ Avtomatik harakatlanadi, ustiga bosilsa to‘xtaydi
+          {t("services.hint")}
         </p>
       </div>
     </section>

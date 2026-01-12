@@ -1,5 +1,6 @@
 import { memo, useEffect, useMemo, useRef, useState } from "react"
 import { MapPin, Navigation, ExternalLink } from "lucide-react"
+import { useTranslation } from "react-i18next"
 
 type Props = {
   title?: string
@@ -23,7 +24,6 @@ function openDirections({
   placeQuery?: string
   travelMode: string
 }) {
-  // ✅ agar lat/lng bo‘lsa: koordinata ustun
   const destination =
     lat != null && lng != null ? `${lat},${lng}` : placeQuery ? placeQuery : ""
 
@@ -65,7 +65,6 @@ function openInGoogleMaps({
   lng?: number
   placeQuery?: string
 }) {
-  // ✅ agar lat/lng bo‘lsa: koordinata ustun
   const q = lat != null && lng != null ? `${lat},${lng}` : placeQuery ? placeQuery : ""
   if (!q) return
 
@@ -74,12 +73,9 @@ function openInGoogleMaps({
 }
 
 const LuxuryMapCard = memo(function LuxuryMapCard({
-  title = "Bizning manzil",
+  title,
+  address,
 
-  // ✅ manzil matni (o‘zing xohlagancha)
-  address = "40.709533, 72.559110",
-
-  // ✅ SEN BERGAN DEFAULT KOORDINATA
   lat = 40.709533,
   lng = 72.55911,
 
@@ -88,7 +84,12 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
   className = "",
   mapHeightClassName = "h-[260px] md:h-[280px]",
 }: Props) {
-  // ✅ Map src: lat/lng bo‘lsa koordinata ishlaydi, bo‘lmasa placeQuery
+  const { t } = useTranslation()
+
+  // ✅ default matnlar (prop berilmasa)
+  const safeTitle = title ?? t("map.title")
+  const safeAddress = address ?? t("map.address")
+
   const mapSrc = useMemo(() => {
     const q =
       lat != null && lng != null
@@ -146,9 +147,9 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
           <div className="min-w-0">
             <div className="flex items-center gap-2">
               <MapPin className="w-4 h-4 text-orange-500" />
-              <p className="text-sm font-semibold text-white truncate">{title}</p>
+              <p className="text-sm font-semibold text-white truncate">{safeTitle}</p>
             </div>
-            <p className="text-xs text-neutral-300 mt-1">{address}</p>
+            <p className="text-xs text-neutral-300 mt-1">{safeAddress}</p>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
@@ -165,7 +166,7 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
               type="button"
             >
               <Navigation className="w-4 h-4" />
-              Marshrut
+              {t("map.route")}
             </button>
 
             <button
@@ -178,8 +179,8 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
                 border border-white/12 transition
               "
               type="button"
-              title="Google Maps’da ochish"
-              aria-label="Google Maps’da ochish"
+              title={t("map.openTitle")}
+              aria-label={t("map.openAria")}
             >
               <ExternalLink className="w-4 h-4" />
             </button>
@@ -200,12 +201,12 @@ const LuxuryMapCard = memo(function LuxuryMapCard({
             />
           ) : (
             <div className={`w-full ${mapHeightClassName} grid place-items-center`}>
-              <div className="text-xs text-white/70">Xarita yuklanmoqda…</div>
+              <div className="text-xs text-white/70">{t("map.loading")}</div>
             </div>
           )}
 
           <div className="px-3 py-2 text-[11px] text-white/70 border-t border-white/10 bg-black/30">
-            📌 Xarita interaktiv: zoom/drag ishlaydi. “Marshrut” bosilsa yo‘nalish ochiladi.
+            {t("map.note")}
           </div>
         </div>
       </div>
