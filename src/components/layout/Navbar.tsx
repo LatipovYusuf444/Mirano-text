@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { useTranslation } from "react-i18next"
 import i18n from "i18next"
-import { Link } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 
 const LANGS = [
   { code: "uz", label: "UZ" },
@@ -19,6 +19,8 @@ type LangCode = (typeof LANGS)[number]["code"]
 
 const Navbar = () => {
   const { t } = useTranslation()
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const navItems = useMemo(
     () => [
@@ -34,7 +36,11 @@ const Navbar = () => {
 
   // ✅ lang dropdown
   const [openLang, setOpenLang] = useState(false)
-  const langRef = useRef<HTMLDivElement | null>(null)
+
+  // ❗️SIZDA ref 2 marta ishlatilgan edi — ajratib qo‘ydim
+  const langRefDesk = useRef<HTMLDivElement | null>(null)
+  const langRefMob = useRef<HTMLDivElement | null>(null)
+
   const currentLang = (i18n.language?.slice(0, 2) as LangCode) || "uz"
 
   const setLang = (lng: LangCode) => {
@@ -47,6 +53,23 @@ const Navbar = () => {
   const [openMobile, setOpenMobile] = useState(false)
   const mobileRef = useRef<HTMLDivElement | null>(null)
 
+  // ✅ LOGO bosilganda: 100% HOME + boshiga scroll
+  const goHome = () => {
+    setOpenMobile(false)
+    setOpenLang(false)
+
+    if (location.pathname !== "/") {
+      navigate("/")
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, behavior: "smooth" })
+      })
+      return
+    }
+
+    window.scrollTo({ top: 0, behavior: "smooth" })
+    history.pushState(null, "", "/")
+  }
+
   useEffect(() => {
     const onScroll = () => setShrink(window.scrollY > 40)
     onScroll()
@@ -54,7 +77,7 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  // ✅ Smooth scroll + fixed navbar offset
+  // ✅ Smooth scroll + fixed navbar offset (faqat # linklar uchun)
   useEffect(() => {
     const handleClick = (e: Event) => {
       const a = e.target as HTMLElement
@@ -86,17 +109,24 @@ const Navbar = () => {
   // ✅ dropdown tashqarisiga bosilsa yopilsin
   useEffect(() => {
     const onDoc = (e: MouseEvent) => {
-      // lang
+      // lang (desktop yoki mobile ichidan qaysi ochiq bo‘lsa ham)
       if (openLang) {
-        const el = langRef.current
-        if (el && e.target instanceof Node && !el.contains(e.target)) setOpenLang(false)
+        const d = langRefDesk.current
+        const m = langRefMob.current
+        if (e.target instanceof Node) {
+          const insideDesk = d ? d.contains(e.target) : false
+          const insideMob = m ? m.contains(e.target) : false
+          if (!insideDesk && !insideMob) setOpenLang(false)
+        }
       }
-      // mobile
+
+      // mobile menu
       if (openMobile) {
         const el2 = mobileRef.current
         if (el2 && e.target instanceof Node && !el2.contains(e.target)) setOpenMobile(false)
       }
     }
+
     document.addEventListener("mousedown", onDoc)
     return () => document.removeEventListener("mousedown", onDoc)
   }, [openLang, openMobile])
@@ -137,8 +167,8 @@ const Navbar = () => {
         `}
       >
         <div className="flex items-center justify-between gap-3">
-          {/* LOGO */}
-          <Link to="/" aria-label="Bosh sahifa">
+          {/* LOGO (home + scroll top) */}
+          <button type="button" onClick={goHome} aria-label="Bosh sahifa" className="shrink-0">
             <motion.img
               src={logo}
               alt="Mirano Logo"
@@ -147,18 +177,17 @@ const Navbar = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.3 }}
               className={`
-      cursor-pointer
-      object-contain transition-all duration-300 ease-out
-      ${shrink
+                cursor-pointer
+                object-contain transition-all duration-300 ease-out
+                ${shrink
                   ? "w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16"
                   : "w-12 h-12 sm:w-14 sm:h-14 md:w-20 md:h-20"}
-    `}
+              `}
             />
-          </Link>
+          </button>
 
           {/* ✅ Desktop NAV + Controls */}
           <div className="hidden md:flex items-center gap-3 lg:gap-5 min-w-0">
-            {/* NAV (RU uzun bo‘lsa ham buzilmaydi) */}
             <nav className="flex items-center gap-3 lg:gap-6 min-w-0">
               {navItems.map((item) => (
                 <a
@@ -181,8 +210,8 @@ const Navbar = () => {
               ))}
             </nav>
 
-            {/* Language Switcher */}
-            <div ref={langRef} className="relative shrink-0">
+            {/* Language Switcher (Desktop) */}
+            <div ref={langRefDesk} className="relative shrink-0">
               <button
                 type="button"
                 onClick={() => setOpenLang((v) => !v)}
@@ -237,8 +266,8 @@ const Navbar = () => {
 
           {/* ✅ Mobile controls */}
           <div className="md:hidden flex items-center gap-2">
-            {/* Lang button (mobile ham ishlasin) */}
-            <div ref={langRef} className="relative">
+            {/* Language Switcher (Mobile) */}
+            <div ref={langRefMob} className="relative">
               <button
                 type="button"
                 onClick={() => setOpenLang((v) => !v)}
@@ -356,7 +385,6 @@ const Navbar = () => {
             <span className="text-orange-400"> {t("hero.title2")}</span>
           </h1>
 
-          {/* ✅ desc ichida \n bo‘lsa ham chiqishi uchun */}
           <p className="text-white/90 text-sm sm:text-base md:text-xl font-medium whitespace-pre-line">
             {t("hero.desc")}
           </p>
