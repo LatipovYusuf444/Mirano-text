@@ -120,19 +120,12 @@ const ProductCard = memo(function ProductCard({
           </p>
         </div>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div className="rounded-xl border border-white/15 bg-black/10 p-3">
-            <p className="text-white/60 text-xs">{t("catalog.price")}</p>
-            <p className="text-white font-bold text-sm sm:text-base">
-              {formatUZS(p.priceUZS)}
-            </p>
-          </div>
-          <div className="rounded-xl border border-white/15 bg-black/10 p-3">
-            <p className="text-white/60 text-xs">{t("catalog.wholesale")}</p>
-            <p className="text-white font-bold text-sm sm:text-base">
-              {formatUZS(p.wholesaleUZS)}
-            </p>
-          </div>
+        {/* ✅ Narxlar blokini OLIB TASHLADIK, o'rniga 1ta katta yozuv qo'ydik */}
+        <div className="rounded-xl border border-white/15 bg-black/10 p-3">
+          <p className="text-white font-extrabold text-sm sm:text-base text-center drop-shadow">
+            Buyurtma asosida tayyorlash <br />
+            Minimal Zakaz 5000 ta Dona
+          </p>
         </div>
 
         <div className="flex flex-wrap gap-2 items-center">
@@ -252,11 +245,39 @@ export default function CatalogCarousel() {
               ))}
             </div>
           </div>
-
           <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-black/40 to-transparent" />
           <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-black/40 to-transparent" />
         </div>
       </div>
+      <div className="flex justify-center mt-10 mb-5 px-4">
+        <div
+          className="
+      max-w-4xl
+      w-full
+      rounded-3xl
+      bg-white/10
+      backdrop-blur-xl
+      border border-white/20
+      shadow-[0_20px_60px_rgba(0,0,0,0.45)]
+      px-8 py-6
+      text-center
+    "
+        >
+          <p
+            className="
+        text-white
+        text-lg sm:text-xl md:text-2xl
+        font-semibold
+        leading-relaxed
+        tracking-wide
+        drop-shadow
+      "
+          >
+            Narxi kelishilgan holda va shartnoma orqali naqd pul yoki pul o‘tkazmasi bilan ishlaniladi
+          </p>
+        </div>
+      </div>
+
     </section>
   )
 }

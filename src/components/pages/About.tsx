@@ -78,7 +78,7 @@ const About = memo(function About() {
   }, [images])
 
   return (
-    <section className="relative w-full bg-neutral-950 py-24 overflow-hidden">
+    <section className="relative w-full bg-neutral-800 py-24 overflow-hidden">
       <div className="absolute left-0 top-0 h-full w-[2px] bg-gradient-to-b from-orange-500/0 via-orange-500/30 to-orange-500/0" />
       <div className="absolute right-0 top-0 h-full w-[2px] bg-gradient-to-b from-orange-500/0 via-orange-500/30 to-orange-500/0" />
 

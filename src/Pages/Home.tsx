@@ -36,7 +36,6 @@ export default function HomePage() {
       <section id="figures" className="scroll-mt-24">
         <Figures />
       </section>
-
       <Footer />
     </>
   )
