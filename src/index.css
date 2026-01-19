@@ -24,15 +24,6 @@ html {
   animation: uzbPulse2 1.6s ease-in-out infinite;
 }
 
-.bg-luxury-gradient {
-  background: linear-gradient(180deg,
-      #0b1220 0%,
-      #0f1a2e 35%,
-      #141f35 55%,
-      #0e1627 75%,
-      #0a0f1c 100%);
-}
-
 @keyframes uzbPulse1 {
   0% {
     opacity: 0.35;
