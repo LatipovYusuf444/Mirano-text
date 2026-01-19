@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import { useTranslation } from "react-i18next"
 import i18n from "i18next"
-import { useLocation, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 
 const LANGS = [
   { code: "uz", label: "UZ" },
@@ -388,13 +388,13 @@ const Navbar = () => {
           <p className="text-white/90 text-sm sm:text-base md:text-xl font-medium whitespace-pre-line">
             {t("hero.desc")}
           </p>
-
-          <Button
-            className="
-              h-12 md:h-14 w-48 px-6 md:px-10
-              text-sm md:text-base font-semibold
-              rounded-full
-              text-white
+          <Link to='/Forma'>
+            <Button
+              className="
+            h-12 md:h-14 w-48 px-6 md:px-10
+            text-sm md:text-base font-semibold
+            rounded-full
+            text-white
               bg-white/10
               backdrop-blur-xl
               border border-white/20
@@ -403,10 +403,11 @@ const Navbar = () => {
               hover:border-white/30
               transition-all duration-300 ease-out
               flex items-center gap-2
-            "
-          >
-            {t("hero.cta")} <ArrowUpRight className="w-5 h-5" />
-          </Button>
+              "
+            >
+              {t("hero.cta")} <ArrowUpRight className="w-5 h-5" />
+            </Button>
+          </Link>
         </motion.div>
       </main>
     </div>
