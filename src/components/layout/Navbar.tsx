@@ -1,6 +1,6 @@
 import logo from "@/assets/images/mirano-bg-text.webp"
-import bgimage from "@/assets/images/bgimagesss.webp"
-import telefonbg from "@/assets/images/telefonbg.webp"
+import bgimage from "@/assets/images/bg-desktop-uchun.webp"
+import telefonbg from "@/assets/images/bg-tel-uchun.webp"
 import { useEffect, useMemo, useRef, useState } from "react"
 import { ArrowUpRight, ChevronDown, Globe, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"

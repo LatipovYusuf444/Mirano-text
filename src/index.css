@@ -3,10 +3,12 @@
 html {
   scroll-behavior: smooth;
 }
+
 /* Hide scrollbar but keep scroll */
 .scrollbar-none::-webkit-scrollbar {
   display: none;
 }
+
 .scrollbar-none {
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -16,19 +18,51 @@ html {
   transform-origin: center;
   animation: uzbPulse1 1.6s ease-in-out infinite;
 }
+
 .uzb-pulse-2 {
   transform-origin: center;
   animation: uzbPulse2 1.6s ease-in-out infinite;
 }
 
+.bg-luxury-gradient {
+  background: linear-gradient(180deg,
+      #0b1220 0%,
+      #0f1a2e 35%,
+      #141f35 55%,
+      #0e1627 75%,
+      #0a0f1c 100%);
+}
+
 @keyframes uzbPulse1 {
-  0% { opacity: 0.35; transform: scale(0.9); }
-  60% { opacity: 0.10; transform: scale(1.35); }
-  100% { opacity: 0.0; transform: scale(1.6); }
+  0% {
+    opacity: 0.35;
+    transform: scale(0.9);
+  }
+
+  60% {
+    opacity: 0.10;
+    transform: scale(1.35);
+  }
+
+  100% {
+    opacity: 0.0;
+    transform: scale(1.6);
+  }
 }
 
 @keyframes uzbPulse2 {
-  0% { opacity: 0.25; transform: scale(0.95); }
-  60% { opacity: 0.12; transform: scale(1.15); }
-  100% { opacity: 0.08; transform: scale(1.25); }
+  0% {
+    opacity: 0.25;
+    transform: scale(0.95);
+  }
+
+  60% {
+    opacity: 0.12;
+    transform: scale(1.15);
+  }
+
+  100% {
+    opacity: 0.08;
+    transform: scale(1.25);
+  }
 }

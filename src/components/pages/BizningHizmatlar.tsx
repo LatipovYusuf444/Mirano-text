@@ -57,8 +57,25 @@ const FeaturedServices = () => {
   }, [paused])
 
   return (
-    <section className="w-full bg-neutral-950 py-24">
-      <div className="max-w-7xl mx-auto px-4 md:px-10">
+    <section className="relative w-full py-24 overflow-hidden">
+      {/* ✅ 1) Base luxury gradient (boshqa pagelar bilan bir xil vibe) */}
+      <div
+        className="
+          absolute inset-0
+          bg-gradient-to-b
+          from-[#1e293b]
+          via-[#0f172a]
+          to-[#020617]
+        "
+      />
+
+      {/* ✅ 2) Glowlar (fonni chiroyli qiladi) */}
+      <div className="pointer-events-none absolute -top-64 left-1/2 -translate-x-1/2 h-[700px] w-[700px] rounded-full bg-sky-500/20 blur-[130px]" />
+      <div className="pointer-events-none absolute top-28 right-[-240px] h-[520px] w-[520px] rounded-full bg-indigo-500/18 blur-[130px]" />
+      <div className="pointer-events-none absolute bottom-[-240px] left-[-240px] h-[520px] w-[520px] rounded-full bg-orange-500/14 blur-[130px]" />
+
+      {/* ✅ content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-10">
         {/* HEADER */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -83,11 +100,7 @@ const FeaturedServices = () => {
             onMouseLeave={() => setPaused(false)}
             onTouchStart={() => setPaused(true)}
             onTouchEnd={() => setPaused(false)}
-            className="
-              flex gap-6
-              overflow-x-hidden
-              select-none
-            "
+            className="flex gap-6 overflow-x-hidden select-none"
           >
             {[...services, ...services].map((service, i) => {
               const Icon = service.icon
@@ -99,11 +112,13 @@ const FeaturedServices = () => {
                   className="
                     min-w-[260px] sm:min-w-[320px]
                     rounded-3xl
-                    bg-white/5
-                    border border-white/10
+                    bg-white/8
+                    border border-white/12
                     p-8
                     backdrop-blur-xl
                     shadow-[0_20px_60px_rgba(0,0,0,0.45)]
+                    hover:bg-white/10
+                    transition-colors
                   "
                 >
                   <div className="w-14 h-14 mb-5 rounded-2xl flex items-center justify-center bg-orange-500/20 border border-orange-400/30">
@@ -123,7 +138,7 @@ const FeaturedServices = () => {
           </div>
         </div>
 
-        <p className="text-white/40 text-sm mt-6">
+        <p className="text-white/50 text-sm mt-6">
           {t("services.hint")}
         </p>
       </div>

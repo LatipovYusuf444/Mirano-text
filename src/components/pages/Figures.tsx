@@ -111,7 +111,7 @@ const Figures = () => {
       className="relative w-full min-h-screen flex items-center text-white pt-20 pb-20"
       style={bgStyle}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-black/30" />
+      <div className="absolute inset-0 " />
 
       <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">

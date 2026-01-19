@@ -11,7 +11,6 @@ const fadeUp = {
 const Testimonials = () => {
   const { t } = useTranslation()
 
-  // ✅ til o‘zgarsa ham avtomatik yangilanadi
   const testimonials = useMemo(
     () => [
       {
@@ -39,8 +38,21 @@ const Testimonials = () => {
   )
 
   return (
-    <section className="py-28 bg-gradient-to-b from-black via-[#0e0e0e] to-black text-white">
-      <div className="max-w-7xl mx-auto px-6 md:px-10">
+    <section
+      className="
+        relative overflow-hidden py-28 text-white
+        bg-gradient-to-b
+        from-[#1e293b]   /* OCH KO‘K */
+        via-[#0f172a]    /* DARK BLUE */
+        to-[#020617]     /* DEEP DARK */
+      "
+    >
+      {/* 🔥 KATTA GRADIENT GLOW (aniq ko‘rinadi) */}
+      <div className="pointer-events-none absolute -top-64 left-1/2 -translate-x-1/2 h-[700px] w-[700px] rounded-full bg-sky-500/25 blur-[120px]" />
+      <div className="pointer-events-none absolute top-40 right-[-200px] h-[500px] w-[500px] rounded-full bg-indigo-500/20 blur-[120px]" />
+      <div className="pointer-events-none absolute bottom-[-200px] left-[-200px] h-[500px] w-[500px] rounded-full bg-orange-500/15 blur-[120px]" />
+
+      <div className="relative max-w-7xl mx-auto px-6 md:px-10">
         {/* HEADER */}
         <motion.div
           variants={fadeUp}
@@ -50,11 +62,11 @@ const Testimonials = () => {
           transition={{ duration: 0.7 }}
           className="text-center max-w-3xl mx-auto mb-20"
         >
-          <span className="text-orange-500 uppercase tracking-widest text-sm font-semibold">
+          <span className="text-orange-400 uppercase tracking-widest text-sm font-semibold">
             {t("testimonials.kicker")}
           </span>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mt-4 whitespace-pre-line">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold mt-4">
             {t("testimonials.title")}
           </h2>
         </motion.div>
@@ -69,18 +81,16 @@ const Testimonials = () => {
               whileInView="visible"
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              whileHover={{ y: -8 }}
+              whileHover={{ y: -10 }}
               className="
-                bg-[#121212]
-                rounded-3xl
-                p-8
-                border border-white/5
-                shadow-xl
-                hover:shadow-orange-500/10
+                bg-white/10 backdrop-blur-xl
+                rounded-3xl p-8
+                border border-white/20
+                shadow-[0_25px_70px_rgba(0,0,0,0.45)]
                 transition-all
               "
             >
-              <div className="flex gap-1 text-orange-500 mb-4">
+              <div className="flex gap-1 text-orange-400 mb-4">
                 {[...Array(5)].map((_, idx) => (
                   <Star key={idx} size={16} fill="currentColor" />
                 ))}
@@ -90,17 +100,17 @@ const Testimonials = () => {
                 {t("testimonials.cardTitle")}
               </h4>
 
-              <p className="text-sm text-neutral-300 leading-relaxed mb-8">
+              <p className="text-sm text-white/80 leading-relaxed mb-8">
                 “{item.text}”
               </p>
 
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-orange-500/20 flex items-center justify-center font-bold text-orange-500">
+                <div className="w-12 h-12 rounded-full bg-orange-500/30 flex items-center justify-center font-bold text-orange-400">
                   {item.name.charAt(0)}
                 </div>
                 <div>
                   <p className="font-semibold">{item.name}</p>
-                  <p className="text-xs text-neutral-400">{item.role}</p>
+                  <p className="text-xs text-white/60">{item.role}</p>
                 </div>
               </div>
             </motion.div>

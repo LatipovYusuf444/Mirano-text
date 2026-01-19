@@ -78,9 +78,31 @@ const About = memo(function About() {
   }, [images])
 
   return (
-    <section className="relative w-full bg-neutral-800 py-24 overflow-hidden">
+    <section
+      className="
+        relative w-full py-24 overflow-hidden
+        bg-gradient-to-b
+        from-[#0b1220]
+        via-[#0f1a2e]
+        via-[#141f35]
+        to-[#0a0f1c]
+      "
+    >
+      {/* ✅ Soft luxury overlay (UI o'zgarmaydi, faqat premium ko'rinadi) */}
+      <div
+        className="
+          absolute inset-0 pointer-events-none
+          [background:radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_55%)]
+        "
+      />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/0 via-black/15 to-black/30" />
+
+      {/* sizdagi orange vertical lines */}
       <div className="absolute left-0 top-0 h-full w-[2px] bg-gradient-to-b from-orange-500/0 via-orange-500/30 to-orange-500/0" />
       <div className="absolute right-0 top-0 h-full w-[2px] bg-gradient-to-b from-orange-500/0 via-orange-500/30 to-orange-500/0" />
+
+      {/* qo'shimcha juda yengil glow (brand) */}
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[520px] w-[520px] rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
 
       <motion.div
         variants={container}

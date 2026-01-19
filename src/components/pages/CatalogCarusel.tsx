@@ -4,8 +4,7 @@ import { Badge } from "@/components/ui/badge"
 import { useTranslation } from "react-i18next"
 
 /**
- * Rasmlar:
- * src/assets/svg/....
+ * Rasmlar
  */
 import p1 from "@/assets/svg/Fiutbolka.kok.webp"
 import p2 from "@/assets/svg/futbolka.bejiviy.webp"
@@ -21,46 +20,24 @@ import p10 from "@/assets/images/Дизайн без названия - 2025-11-
 type Product = {
   id: string
   name: string
-  priceUZS: number
-  wholesaleUZS: number
   sizes: string[]
   image: string
 }
 
 const PRODUCTS: Product[] = [
-  { id: "p1", name: "Premium Cotton Fabric", priceUZS: 189000, wholesaleUZS: 165000, sizes: ["S", "M", "L", "XL"], image: p1 },
-  { id: "p2", name: "Luxury Satin Textile", priceUZS: 249000, wholesaleUZS: 219000, sizes: ["S", "M", "L"], image: p2 },
-  { id: "p3", name: "Soft Linen Blend", priceUZS: 209000, wholesaleUZS: 179000, sizes: ["M", "L", "XL", "2XL"], image: p3 },
-  { id: "p4", name: "Silk Touch Material", priceUZS: 329000, wholesaleUZS: 295000, sizes: ["S", "M", "L", "XL"], image: p4 },
-  { id: "p5", name: "Denim Strong Weave", priceUZS: 279000, wholesaleUZS: 245000, sizes: ["M", "L", "XL"], image: p5 },
-  { id: "p6", name: "Velvet Premium", priceUZS: 359000, wholesaleUZS: 319000, sizes: ["S", "M", "L"], image: p6 },
-  { id: "p7", name: "Wool Mix Warm", priceUZS: 399000, wholesaleUZS: 349000, sizes: ["L", "XL", "2XL"], image: p7 },
-  { id: "p8", name: "Jersey Knit", priceUZS: 159000, wholesaleUZS: 139000, sizes: ["S", "M", "L", "XL", "2XL"], image: p8 },
-  { id: "p9", name: "Ribbed Cotton", priceUZS: 175000, wholesaleUZS: 155000, sizes: ["S", "M", "L"], image: p9 },
-  { id: "p10", name: "Canvas Heavy Duty", priceUZS: 289000, wholesaleUZS: 255000, sizes: ["M", "L", "XL"], image: p10 },
+  { id: "p1", name: "Premium Cotton Fabric", sizes: ["S", "M", "L", "XL"], image: p1 },
+  { id: "p2", name: "Luxury Satin Textile", sizes: ["S", "M", "L"], image: p2 },
+  { id: "p3", name: "Soft Linen Blend", sizes: ["M", "L", "XL", "2XL"], image: p3 },
+  { id: "p4", name: "Silk Touch Material", sizes: ["S", "M", "L", "XL"], image: p4 },
+  { id: "p5", name: "Denim Strong Weave", sizes: ["M", "L", "XL"], image: p5 },
+  { id: "p6", name: "Velvet Premium", sizes: ["S", "M", "L"], image: p6 },
+  { id: "p7", name: "Wool Mix Warm", sizes: ["L", "XL", "2XL"], image: p7 },
+  { id: "p8", name: "Jersey Knit", sizes: ["S", "M", "L", "XL", "2XL"], image: p8 },
+  { id: "p9", name: "Ribbed Cotton", sizes: ["S", "M", "L"], image: p9 },
+  { id: "p10", name: "Canvas Heavy Duty", sizes: ["M", "L", "XL"], image: p10 },
 ]
 
-function formatUZS(value: number) {
-  return `${new Intl.NumberFormat("uz-UZ").format(value)} so'm`
-}
-
-/** ✅ prefers-reduced-motion bo‘lsa autoplay o‘chadi (qotish kam) */
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(false)
-
-  useEffect(() => {
-    const m = window.matchMedia?.("(prefers-reduced-motion: reduce)")
-    if (!m) return
-    const onChange = () => setReduced(m.matches)
-    onChange()
-    m.addEventListener?.("change", onChange)
-    return () => m.removeEventListener?.("change", onChange)
-  }, [])
-
-  return reduced
-}
-
-/** ✅ Memo: re-render kamayadi */
+/* ---------- Card ---------- */
 const ProductCard = memo(function ProductCard({
   p,
   t,
@@ -75,7 +52,6 @@ const ProductCard = memo(function ProductCard({
         border border-white/15
         bg-white/10 backdrop-blur-xl
         shadow-[0_12px_50px_rgba(0,0,0,0.35)]
-        hover:border-white/25 hover:bg-white/12
         transition-all duration-300
       "
     >
@@ -83,58 +59,33 @@ const ProductCard = memo(function ProductCard({
         <img
           src={p.image}
           alt={p.name}
-          className="
-            absolute inset-0 h-full w-full
-            object-contain object-center
-            p-1
-            transition-transform duration-700
-            group-hover:scale-[1.06]
-          "
+          className="absolute inset-0 h-full w-full object-contain p-2 transition-transform duration-700 group-hover:scale-[1.05]"
           loading="lazy"
-          decoding="async"
-          style={{ willChange: "transform" }}
         />
 
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="absolute inset-0 bg-gradient-to-br from-white/12 via-white/5 to-transparent" />
-        <div className="absolute inset-0 opacity-60 [background:radial-gradient(circle_at_30%_20%,rgba(255,180,80,0.18),transparent_55%)]" />
-        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 [background:radial-gradient(circle_at_70%_30%,rgba(255,255,255,0.18),transparent_55%)]" />
-
-        <div className="absolute left-3 bottom-3 flex items-center gap-2">
-          <Badge className="bg-orange-500/90 text-white border-0 shadow-md">
+        <div className="absolute left-3 bottom-3">
+          <Badge className="bg-orange-500/90 text-white border-0">
             {t("catalog.badgeWholesale")}
           </Badge>
-          <span className="text-white/80 text-xs drop-shadow">
-            {t("catalog.badgeHint")}
-          </span>
         </div>
       </div>
 
-      <div className="p-5 space-y-4">
-        <div className="space-y-1">
-          <h3 className="text-white font-semibold text-base sm:text-lg leading-snug drop-shadow">
-            {p.name}
-          </h3>
-          <p className="text-white/75 text-xs sm:text-sm">
-            {t("catalog.subtitle")}
-          </p>
+      <div className="p-5 space-y-4 text-white">
+        <h3 className="font-semibold text-lg">{p.name}</h3>
+
+        {/* ✅ NARX O‘RNIGA TRANSLATE MATN */}
+        <div className="rounded-xl border border-white/20 bg-black/20 px-4 py-3 text-center">
+          <p className="font-semibold">{t("catalog.orderTitle")}</p>
+          <p className="text-xs text-white/70 mt-1">{t("catalog.orderMin")}</p>
         </div>
 
-        {/* ✅ Narxlar blokini OLIB TASHLADIK, o'rniga 1ta katta yozuv qo'ydik */}
-        <div className="rounded-xl border border-white/15 bg-black/10 p-3">
-          <p className="text-white font-extrabold text-sm sm:text-base text-center drop-shadow">
-            Buyurtma asosida tayyorlash <br />
-            Minimal Zakaz 5000 ta Dona
-          </p>
-        </div>
-
-        <div className="flex flex-wrap gap-2 items-center">
-          <span className="text-white/70 text-xs">{t("catalog.size")}:</span>
+        <div className="flex flex-wrap gap-2 items-center text-xs text-white/70">
+          <span>{t("catalog.size")}:</span>
           {p.sizes.map((s) => (
             <Badge
               key={s}
               variant="secondary"
-              className="bg-white/10 text-white border border-white/15 hover:bg-white/15 transition"
+              className="bg-white/10 text-white border border-white/15"
             >
               {s}
             </Badge>
@@ -145,139 +96,120 @@ const ProductCard = memo(function ProductCard({
   )
 })
 
+/* ---------- Carousel ---------- */
 export default function CatalogCarousel() {
   const { t } = useTranslation()
-
   const [isHover, setIsHover] = useState(false)
-  const reducedMotion = usePrefersReducedMotion()
 
-  const [emblaRef, emblaApi] = useEmblaCarousel(
-    {
-      loop: true,
-      align: "start",
-      skipSnaps: false,
-      containScroll: "trimSnaps",
-      dragFree: false,
-    },
-    []
-  )
+  const [emblaRef, emblaApi] = useEmblaCarousel({ loop: true })
 
-  const intervalId = useRef<number | null>(null)
+  const timer = useRef<number | null>(null)
 
-  const stopAutoplay = useCallback(() => {
-    if (intervalId.current) {
-      window.clearInterval(intervalId.current)
-      intervalId.current = null
+  const stop = useCallback(() => {
+    if (timer.current) {
+      window.clearInterval(timer.current)
+      timer.current = null
     }
   }, [])
 
-  const startAutoplay = useCallback(() => {
+  const start = useCallback(() => {
     if (!emblaApi) return
-    stopAutoplay()
+    stop()
+    if (isHover || document.hidden) return
 
-    if (reducedMotion || isHover || document.hidden) return
-
-    intervalId.current = window.setInterval(() => {
-      if (!emblaApi) return
+    timer.current = window.setInterval(() => {
       emblaApi.scrollNext()
     }, 2500)
-  }, [emblaApi, isHover, reducedMotion, stopAutoplay])
+  }, [emblaApi, isHover, stop])
 
   useEffect(() => {
     if (!emblaApi) return
+    start()
 
-    const onPointerDown = () => stopAutoplay()
-    const onPointerUp = () => startAutoplay()
-    const onVisibility = () => {
-      if (document.hidden) stopAutoplay()
-      else startAutoplay()
+    const onVis = () => {
+      if (document.hidden) stop()
+      else start()
     }
 
-    emblaApi.on("pointerDown", onPointerDown)
-    emblaApi.on("pointerUp", onPointerUp)
-    document.addEventListener("visibilitychange", onVisibility)
-
-    startAutoplay()
-
+    document.addEventListener("visibilitychange", onVis)
     return () => {
-      stopAutoplay()
-      emblaApi.off("pointerDown", onPointerDown)
-      emblaApi.off("pointerUp", onPointerUp)
-      document.removeEventListener("visibilitychange", onVisibility)
+      stop()
+      document.removeEventListener("visibilitychange", onVis)
     }
-  }, [emblaApi, startAutoplay, stopAutoplay])
+  }, [emblaApi, start, stop])
+
+  useEffect(() => {
+    start()
+  }, [isHover, start])
 
   const slides = useMemo(() => PRODUCTS, [])
 
   return (
-    <section className="relative z-10 px-4 md:px-16 py-16">
-      <div className="max-w-6xl mx-auto">
-        <div className="mb-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white drop-shadow">
-            {t("catalog.title")}
-          </h2>
-          <p className="text-white/75 mt-2 text-sm sm:text-base">
-            {t("catalog.topHint")}
-          </p>
-        </div>
+    <section
+      className="
+        relative z-10
+        px-4 md:px-16 py-20
+        bg-gradient-to-b
+        from-[#0b1220]
+        via-[#0f1a2e]
+        via-[#141f35]
+        to-[#0a0f1c]
+        overflow-hidden
+      "
+      onMouseEnter={() => setIsHover(true)}
+      onMouseLeave={() => setIsHover(false)}
+      onTouchStart={() => setIsHover(true)}
+      onTouchEnd={() => setIsHover(false)}
+    >
+      {/* soft luxury overlay */}
+      <div
+        className="
+          absolute inset-0 pointer-events-none
+          [background:radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_55%)]
+        "
+      />
+      <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/0 via-black/15 to-black/35" />
+      <div className="absolute -top-40 left-1/2 -translate-x-1/2 h-[520px] w-[520px] rounded-full bg-orange-500/10 blur-3xl pointer-events-none" />
 
-        <div
-          className="relative"
-          onMouseEnter={() => setIsHover(true)}
-          onMouseLeave={() => setIsHover(false)}
-          onTouchStart={() => setIsHover(true)}
-          onTouchEnd={() => setIsHover(false)}
-        >
+      <div className="relative max-w-6xl mx-auto">
+        <h2 className="text-3xl font-extrabold text-white">{t("catalog.title")}</h2>
+        <p className="text-white/70 mt-2">{t("catalog.topHint")}</p>
+
+        <div className="mt-10 relative">
           <div ref={emblaRef} className="overflow-hidden">
             <div className="flex -ml-4">
               {slides.map((p) => (
                 <div
                   key={p.id}
-                  className="
-                    pl-4
-                    flex-[0_0_92%]
-                    sm:flex-[0_0_50%]
-                    lg:flex-[0_0_33.333%]
-                  "
+                  className="pl-4 flex-[0_0_90%] sm:flex-[0_0_50%] lg:flex-[0_0_33.333%]"
                 >
                   <ProductCard p={p} t={t} />
                 </div>
               ))}
             </div>
           </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-black/40 to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-black/40 to-transparent" />
-        </div>
-      </div>
-      <div className="flex justify-center mt-10 mb-5 px-4">
-        <div
-          className="
-      max-w-4xl
-      w-full
-      rounded-3xl
-      bg-white/10
-      backdrop-blur-xl
-      border border-white/20
-      shadow-[0_20px_60px_rgba(0,0,0,0.45)]
-      px-8 py-6
-      text-center
-    "
-        >
-          <p
-            className="
-        text-white
-        text-lg sm:text-xl md:text-2xl
-        font-semibold
-        leading-relaxed
-        tracking-wide
-        drop-shadow
-      "
-          >
-            Narxi kelishilgan holda va shartnoma orqali naqd pul yoki pul o‘tkazmasi bilan ishlaniladi
-          </p>
-        </div>
-      </div>
 
+          {/* edge fade */}
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-black/35 to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-black/35 to-transparent" />
+        </div>
+
+        {/* ✅ pastdagi uzun glass text ham translate */}
+        <div className="mt-16 flex justify-center">
+          <div
+            className="
+              rounded-2xl
+              bg-white/10 backdrop-blur-xl
+              border border-white/20
+              px-8 py-5
+              text-white text-center
+              shadow-[0_20px_60px_rgba(0,0,0,0.35)]
+            "
+          >
+            {t("catalog.note")}
+          </div>
+        </div>
+      </div>
     </section>
   )
 }

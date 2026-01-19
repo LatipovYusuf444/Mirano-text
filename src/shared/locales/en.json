@@ -11,6 +11,17 @@
     "desc": "Our fabrics are created by blending modern technologies with traditional weaving techniques.",
     "cta": "Telegram"
   },
+  "catalog": {
+    "title": "Catalog",
+    "topHint": "Auto carousel • pauses on hover • luxury glass cards",
+    "badgeWholesale": "Wholesale",
+    "badgeHint": "Pricing",
+    "subtitle": "Premium quality • Modern production • Fast delivery",
+    "size": "Size",
+    "orderTitle": "Made to order",
+    "orderMin": "Minimum order: 5000 pieces",
+    "note": "Price is negotiable and work is carried out under contract: cash or bank transfer."
+  },
   "footer": {
     "map": {
       "title": "Our location",
@@ -50,7 +61,7 @@
       "line1": "Traditional quality",
       "highlight": "With modern design"
     },
-    "desc": "Mirano Textile combines premium fabrics, perfect tailoring, and a modern minimalist style. Every T-shirt we produce blends comfort, durability, and aesthetics—making it a reliable everyday choice.\n\nOur T-shirts keep their shape and color for a long time and stay comfortable in every season.",
+    "desc": "Mirano Textile combines premium fabrics, perfect tailoring, and a modern minimalist style. Every T-shirt we produce blends comfort, durability, and aesthetics — making it a reliable everyday choice.\n\nOur T-shirts retain their shape and color for a long time and remain comfortable in every season.",
     "sizes": "S · M · L · XL · XXL",
     "stats": {
       "experience": "Years of experience",
@@ -80,16 +91,6 @@
         "desc": "On-time and safe delivery service."
       }
     }
-  },
-  "catalog": {
-    "title": "Catalog",
-    "topHint": "Auto carousel • pauses on hover • luxury glass cards",
-    "badgeWholesale": "Wholesale",
-    "badgeHint": "Pricing",
-    "subtitle": "Premium quality • Modern weaving • Fast delivery",
-    "price": "Price",
-    "wholesale": "Wholesale",
-    "size": "Size"
   },
   "figures": {
     "kicker": "✦ 02. Key Figures",

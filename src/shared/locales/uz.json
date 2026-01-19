@@ -1,15 +1,26 @@
 {
   "nav": {
-    "info": "Ma'lumotlar",
-    "catalog": "Catalog",
+    "info": "Ma’lumotlar",
+    "catalog": "Katalog",
     "about": "Biz haqimizda",
-    "location": "Location"
+    "location": "Manzil"
   },
   "hero": {
-    "title1": "Sifatli Textile",
-    "title2": "Maxsulotlari",
+    "title1": "Sifatli textile",
+    "title2": "mahsulotlari",
     "desc": "Mukammal bichim, yumshoq mato va zamonaviy dizayn.\nHar bir detalda sifat, har bir kiyishda ishonch.",
     "cta": "Telegram"
+  },
+  "catalog": {
+    "title": "Katalog",
+    "topHint": "Avtokarusel • ustiga olib borilganda to‘xtaydi • luxury glass cards",
+    "badgeWholesale": "Optom",
+    "badgeHint": "Narxlarda",
+    "subtitle": "Yuqori sifat • Zamonaviy ishlab chiqarish • Tezkor yetkazib berish",
+    "size": "Razmer",
+    "orderTitle": "Buyurtma asosida tayyorlanadi",
+    "orderMin": "Minimal buyurtma: 5000 dona",
+    "note": "Narx kelishilgan holda belgilanadi va shartnoma asosida ishlanadi: naqd pul yoki pul o‘tkazmasi orqali."
   },
   "footer": {
     "map": {
@@ -17,10 +28,10 @@
       "address": "Andijon viloyati, Andijon shahri"
     },
     "brand": {
-      "desc": "Biz texnik to‘qimachilik sohasida sifat, ishonch va innovatsiyani birlashtirgan holda xalqaro darajadagi mahsulotlar ishlab chiqaramiz."
+      "desc": "Biz texnik to‘qimachilik sohasida sifat, ishonch va innovatsiyani uyg‘unlashtirgan holda xalqaro darajadagi mahsulotlar ishlab chiqaramiz."
     },
     "links": {
-      "title": "Tezkor Havolalar",
+      "title": "Tezkor havolalar",
       "about": "Biz haqimizda",
       "services": "Xizmatlar",
       "products": "Mahsulotlar",
@@ -35,90 +46,80 @@
     },
     "hours": {
       "title": "Ish vaqti",
-      "text": "Dushanba - Shanba: 08:00 - 18:00\nYakshanba: Dam olish"
+      "text": "Dushanba – Shanba: 08:00 – 18:00\nYakshanba: Dam olish kuni"
     },
     "card": {
-      "title": "Taklif/Buyurtma",
-      "desc": "Biz bilan bog‘laning — tez javob beramiz."
+      "title": "Taklif / Buyurtma",
+      "desc": "Biz bilan bog‘laning — tezkor javob beramiz."
     },
     "bottom": "Mirano Textile. Barcha huquqlar himoyalangan."
   },
   "about": {
     "imageAlt": "Textile Workshop",
-    "kicker": "About Mirano Textile",
+    "kicker": "Mirano Textile haqida",
     "title": {
       "line1": "An’anaviy sifat",
-      "highlight": "Zamonaviy dizayn bilan"
+      "highlight": "zamonaviy dizayn bilan"
     },
-    "desc": "Mirano Textile — bu yuqori sifatli matolar, mukammal bichim va zamonaviy minimalistik uslub uyg‘unligi. Biz ishlab chiqaradigan har bir futbolka qulaylik, mustahkamlik va estetikani birlashtirib, kundalik hayotingizda ishonchli tanlov bo‘lib xizmat qiladi.\n\nFutbolkalarimiz uzoq vaqt davomida shaklini yo‘qotmaydi, rangini saqlaydi va har mavsumda qulay kiyinish imkonini beradi.",
+    "desc": "Mirano Textile — bu yuqori sifatli matolar, mukammal bichim va zamonaviy minimalistik dizayn uyg‘unligi. Biz ishlab chiqaradigan har bir futbolka qulaylik, mustahkamlik va estetikani birlashtirib, kundalik hayot uchun ishonchli tanlov bo‘lib xizmat qiladi.\n\nFutbolkalarimiz uzoq vaqt davomida shaklini va rangini saqlaydi hamda har mavsumda qulay kiyishni ta’minlaydi.",
     "sizes": "S · M · L · XL · XXL",
     "stats": {
-      "experience": "Yillik Tajriba",
+      "experience": "Yillik tajriba",
       "products": "Mahsulotlar",
       "partners": "Hamkorlar"
     }
   },
   "services": {
-    "kicker": "02. Featured Services",
-    "title": "Bizning Xizmatlar",
-    "hint": "⟵ Avtomatik harakatlanadi, ustiga bosilsa to‘xtaydi",
+    "kicker": "02. Xizmatlar",
+    "title": "Bizning xizmatlar",
+    "hint": "⟵ Avtomatik harakatlanadi, ustiga olib borilganda to‘xtaydi",
     "items": {
       "customSewing": {
-        "title": "Maxsus Tikuv",
+        "title": "Maxsus tikuv",
         "desc": "Buyurtma asosida yuqori sifatli textile mahsulotlar."
       },
       "modernProduction": {
-        "title": "Zamonaviy Ishlab Chiqarish",
-        "desc": "Yangi texnologiyalar asosida ishlab chiqarish jarayoni."
+        "title": "Zamonaviy ishlab chiqarish",
+        "desc": "Yangi texnologiyalar asosida yo‘lga qo‘yilgan ishlab chiqarish jarayoni."
       },
       "exclusiveDesign": {
-        "title": "Eksklyuziv Dizayn",
-        "desc": "Trend va an’anaviy uslublar uyg‘unligi."
+        "title": "Eksklyuziv dizayn",
+        "desc": "Trendlar va an’anaviy uslublar uyg‘unligi."
       },
       "fastDelivery": {
-        "title": "Tezkor Yetkazib Berish",
+        "title": "Tezkor yetkazib berish",
         "desc": "O‘z vaqtida va xavfsiz yetkazib berish xizmati."
       }
     }
   },
-  "catalog": {
-    "title": "Catalog",
-    "topHint": "Auto carousel • hover bo‘lsa to‘xtaydi • luxury glass cards",
-    "badgeWholesale": "Optom",
-    "badgeHint": "Narxlarda",
-    "subtitle": "Yuqori sifat • Zamonaviy to‘quv • Tez yetkazish",
-    "price": "Narxi",
-    "wholesale": "Optom",
-    "size": "Razmer"
-  },
   "figures": {
-    "kicker": "✦ 02. Asosiy Ko‘rsatkichlar",
-    "title": "To‘qimachilik\nSanoatining\nKelajagini\nYaratmoqdamiz",
-    "desc": "Biz mahsulot va ishlab chiqarish jarayonlarini rivojlantirishda barqarorlik, sifat va inson omilini birinchi o‘ringa qo‘yamiz. Atrof-muhit va jamiyatni asrash — bizning ustuvor maqsadimiz.",
+    "kicker": "✦ 02. Asosiy ko‘rsatkichlar",
+    "title": "To‘qimachilik\nsanoatining\nkelajagini\nyaratmoqdamiz",
+    "desc": "Biz mahsulot va ishlab chiqarish jarayonlarini rivojlantirishda barqarorlik, sifat va inson omilini ustuvor deb bilamiz. Atrof-muhit va jamiyatni asrash — bizning asosiy maqsadimiz.",
     "stats": {
       "exp": {
-        "title": "Yillik Tajriba",
-        "desc": "O‘n yillardan ortiq muvaffaqiyatli ishlab chiqarish tajribasi."
+        "title": "Yillik tajriba",
+        "desc": "O‘n yildan ortiq muvaffaqiyatli ishlab chiqarish tajribasi."
       },
       "monthly": {
-        "title": "Oylik Ishlab Chiqarish",
+        "title": "Oylik ishlab chiqarish",
         "desc": "Har oy 690 ming metr mato ishlab chiqariladi."
       },
       "satisfaction": {
-        "title": "Mijozlar Qoniqishi",
+        "title": "Mijozlar qoniqishi",
         "desc": "Natijaga asoslangan uzoq muddatli hamkorlik."
       }
     }
   },
   "testimonials": {
     "kicker": "✦ 08. Mijozlar fikri",
-    "title": "Mijozlarimiz\nBiz Haqimizda Nima Deydi",
-    "cardTitle": "A’lo darajadagi xizmat",
+    "title": "Mijozlarimiz\nbiz haqimizda nima deydi",
+    "cardTitle": "Yuqori darajadagi xizmat",
     "items": [
       {
         "name": "Jasmina Karimova",
         "role": "Biznes egasi",
-        "text": "Mahsulot sifati juda yuqori. Buyurtmalar doimo o‘z vaqtida va mukammal bajariladi. Hamkorlikdan juda mamnunmiz."
+        "text": "Mahsulot sifati juda yuqori. Buyurtmalar har doim o‘z vaqtida va mukammal bajariladi. Hamkorlikdan juda mamnunmiz."
       },
       {
         "name": "Akmal Rustamov",
@@ -128,7 +129,7 @@
       {
         "name": "Madina Soliyeva",
         "role": "Bloger, jurnalist",
-        "text": "Dizayn va mato sifati meni hayratda qoldirdi. Brend haqiqiy premium darajada."
+        "text": "Dizayn va mato sifati meni hayratda qoldirdi. Brend haqiqatan ham premium darajada."
       },
       {
         "name": "Diyorbek Jo‘rayev",
@@ -144,6 +145,6 @@
     "openTitle": "Google Maps’da ochish",
     "openAria": "Google Maps’da ochish",
     "loading": "Xarita yuklanmoqda…",
-    "note": "📌 Xarita interaktiv: zoom/drag ishlaydi. “Marshrut” bosilsa yo‘nalish ochiladi."
+    "note": "📌 Xarita interaktiv: zoom va surish ishlaydi. “Marshrut” tugmasini bosib yo‘nalishni ochishingiz mumkin."
   }
 }
