@@ -124,7 +124,7 @@ const Footer = () => {
               </a>
 
               <a
-                href=""
+                href="https://wa.me/message/GO2UXI6SGHW4C1"
                 target="_blank"
                 rel="noreferrer"
                 className="p-3 rounded-full bg-white/10 hover:bg-orange-500 transition"
