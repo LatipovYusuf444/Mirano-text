@@ -91,7 +91,7 @@ const Footer = () => {
             {/* ✅ Social icons: Instagram, Telegram, YouTube, WhatsApp */}
             <div className="flex gap-4">
               <a
-                href="https://www.instagram.com/mirabrand_uz?igsh=MWxmdDJ5czR3cWxmZg=="
+                href="https://www.instagram.com/mirano_uzb?igsh=MWxmdDJ5czR3cWxmZg=="
                 target="_blank"
                 rel="noreferrer"
                 className="p-3 rounded-full bg-white/10 hover:bg-orange-500 transition"
