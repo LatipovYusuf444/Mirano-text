@@ -388,7 +388,7 @@ const Navbar = () => {
           <p className="text-white/90 text-sm sm:text-base md:text-xl font-medium whitespace-pre-line">
             {t("hero.desc")}
           </p>
-          <Link to='/Forma'>
+          <Link to='https://t.me/miranotex'>
             <Button
               className="
             h-12 md:h-14 w-48 px-6 md:px-10
