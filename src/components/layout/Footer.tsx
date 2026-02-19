@@ -9,6 +9,7 @@ import {
   Youtube,
 } from "lucide-react"
 import { useTranslation } from "react-i18next"
+import { Link } from "react-router-dom"
 
 import bgImage from "@/assets/svg/shirt-mockup-concept-with-plain-clothing.webp"
 import LuxuryMapCard from "@/components/pages/UzbekistanLocationCard"
@@ -18,23 +19,20 @@ const fadeUp = {
   visible: { opacity: 1, y: 0 },
 }
 
+type QuickLink = { label: string; to: string }
+
 const Footer = () => {
   const { t } = useTranslation()
 
-  const quickLinks = [
-    t("footer.links.about"),
-    t("footer.links.services"),
-    t("footer.links.products"),
-    t("footer.links.blog"),
-    t("footer.links.contact"),
+  // ✅ ichki linklar (SPA)
+  // to'larni routeringizga moslab qo'ying
+  const quickLinks: QuickLink[] = [
+    { label: t("footer.links.about"), to: "/about" },
+    { label: t("footer.links.services"), to: "/services" },
+    { label: t("footer.links.products"), to: "/products" },
+    { label: t("footer.links.blog"), to: "/blog" },
+    { label: t("footer.links.contact"), to: "/contact" },
   ]
-
-  // ✅ WhatsApp: telefonni o'zingiznikiga moslab qo'ying (998XXXXXXXXX)
-  const whatsappPhone = "998901234567"
-  const whatsappLink = `https://wa.me/${whatsappPhone}`
-
-  // ✅ YouTube: kanal linkini o'zingiznikiga moslab qo'ying
-  const youtubeLink = "https://www.youtube.com/"
 
   // ✅ Manzil (o‘zbekcha)
   const addressUz = "Andijon viloyati, Jalalkuduk tumani"
@@ -62,7 +60,6 @@ const Footer = () => {
         >
           <LuxuryMapCard
             title={t("footer.map.title")}
-            // ✅ manzilni o'zbekcha qilib qo'ydik
             address={addressUz}
             lat={40.709533}
             lng={72.55911}
@@ -88,7 +85,7 @@ const Footer = () => {
               {t("footer.brand.desc")}
             </p>
 
-            {/* ✅ Social icons: Instagram, Telegram, YouTube, WhatsApp */}
+            {/* Social icons (tashqi linklar => <a> qoladi) */}
             <div className="flex gap-4">
               <a
                 href="https://www.instagram.com/mirano_uzb?igsh=MWxmdDJ5czR3cWxmZg=="
@@ -131,7 +128,6 @@ const Footer = () => {
                 aria-label="WhatsApp"
                 title="WhatsApp"
               >
-                {/* lucide-react'da WhatsApp ikoni yo'q, shuning uchun SVG ishlatyapmiz */}
                 <svg
                   width="20"
                   height="20"
@@ -145,18 +141,18 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* LINKS */}
+          {/* LINKS (a o‘rniga Link) */}
           <div className="space-y-4">
             <h4 className="font-semibold text-lg">{t("footer.links.title")}</h4>
             <ul className="space-y-2 text-sm text-neutral-300">
-              {quickLinks.map((item, i) => (
-                <li key={i}>
-                  <a
-                    href="#"
+              {quickLinks.map((item) => (
+                <li key={item.to}>
+                  <Link
+                    to={item.to}
                     className="hover:text-orange-500 transition inline-flex items-center gap-1"
                   >
-                    {item} <ArrowUpRight size={14} />
-                  </a>
+                    {item.label} <ArrowUpRight size={14} />
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -178,7 +174,6 @@ const Footer = () => {
 
             <div className="flex items-start gap-3 text-sm text-neutral-300">
               <MapPin size={16} className="text-orange-500 mt-1" />
-              {/* ✅ manzilni o'zbekcha */}
               {addressUz}
             </div>
           </div>
